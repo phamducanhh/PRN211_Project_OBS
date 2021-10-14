@@ -5,6 +5,8 @@
     HomeController home = new HomeController();
     GenreController gc = new GenreController();
     List<Book> books = ViewBag.ListBook;
+    string tag = ViewBag.Tag;
+    string url_part = ViewBag.Url_Part;
     List<Genre> genres = home.GetGenres();
     List<Book> bestSeller = home.GetBestSellerBook();
     int count = 0;
@@ -57,9 +59,9 @@
                     <li><a href="Home">Home</a></li>
                     @foreach (var item in genres)
                     {
-                        <li class="@(item.id==ViewBag.Genre.id?"active":"")"><a href="Genre?genre_id=@item.id">@item.name</a></li>
+                        <li><a href="Genre?genre_id=@item.id">@item.name</a></li>
                     }
-                    </ul>
+                </ul>
                 <!-- /NAV -->
             </div>
             <!-- /responsive-nav -->
@@ -77,7 +79,7 @@
                     <ul class="breadcrumb-tree">
                         <li><a href="Home">Home</a></li>
                         <li>All Categories</li>
-                        <li class="active">@ViewBag.Genre.name</li>
+                        <li class="active">@ViewBag.TagNav</li>
                     </ul>
                 </div>
             </div>
@@ -102,13 +104,13 @@
                                 @foreach (var item in genres)
                                 {
                                     <div class="input-checkbox">
-                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.id" @(item.id==ViewBag.Genre.id?"checked":"")/>
+                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.id" @(tag.Contains(item.id.ToString())? "checked" : "") />
                                         <label for="@item.id">
                                             <span></span>
                                             @item.name
                                         </label>
                                     </div>
-                                }                               
+                                }
                                 <p></p>
                                 <div class="search-btn">
                                     <p><input type="submit" value="Filter Here">
@@ -126,7 +128,7 @@
                                 <div class="product-img">
                                     <img src="~/Content/img/@item.image_url" alt="">
                                 </div>
-                                <div class="product-body">                                
+                                <div class="product-body">
                                     <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
                                     <h4 class="product-price">$ @item.price.00</h4>
                                 </div>
@@ -201,7 +203,6 @@
                             </div>
                         </div>
                         <!-- /store products -->
-
                         <!-- store bottom filter -->
                         <div class="store-filter clearfix">
                             <span class="store-qty">Showing 6 products per page</span>
@@ -214,7 +215,7 @@
                                     }
                                     else
                                     {
-                                        <li><a href="Genre?genre_id=@ViewBag.Genre.id&page=@i">@i</a></li>
+                                        <li><a href="Filter?@(url_part)page=@i">@i</a></li>
                                     }
 
                                 }
@@ -224,23 +225,25 @@
                     </div>
                     <!-- /STORE -->
                 </div>
-            <!-- /row -->
+                <!-- /row -->
+            </div>
+            <!-- /container -->
         </div>
-        <!-- /container -->
-    </div>
-    <!-- /SECTION -->
-    <!-- FOOTER -->
-    <jsp:include page="Footer.jsp"></jsp:include>
-    <!-- /FOOTER -->
-    <!-- jQuery Plugins -->
-    <!-- jQuery Plugins -->
-    <script src="~/Scripts/js/jquery.min.js"></script>
-    <script src="~/Scripts/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/js/slick.min.js"></script>
-    <script src="~/Scripts/js/nouislider.min.js"></script>
-    <script src="~/Scripts/js/jquery.zoom.min.js"></script>
-    <script src="~/Scripts/js/main.js"></script>
+        <!-- /SECTION -->
+        <!-- FOOTER -->
+        <jsp:include page="Footer.jsp"></jsp:include>
+        <!-- /FOOTER -->
+        <!-- jQuery Plugins -->
+        <!-- jQuery Plugins -->
+        <script src="~/Scripts/js/jquery.min.js"></script>
+        <script src="~/Scripts/js/bootstrap.min.js"></script>
+        <script src="~/Scripts/js/slick.min.js"></script>
+        <script src="~/Scripts/js/nouislider.min.js"></script>
+        <script src="~/Scripts/js/jquery.zoom.min.js"></script>
+        <script src="~/Scripts/js/main.js"></script>
 </body>
 </html>
+
+
 
 
