@@ -54,7 +54,7 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="hompage">Home</a></li>
+                    <li><a href="Home">Home</a></li>
                     @foreach (var item in genres)
                     {
                         <li><a href="Genre?genre_id=@item.id"> @item.name</a></li>
@@ -220,7 +220,7 @@
                             <div id="tab2" class="tab-pane fade in">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p style="text-align: center">Author: <a href="">@author.name</a></p>
+                                        <p style="text-align: center">Author: <a href="ListBooksByAuthor?author_id=@book.author_id">@author.name</a></p>
                                         <p style="text-align: center"><a href="@author.wiki_url">See more on Wikipedia</a></p>
                                     </div>
                                 </div>

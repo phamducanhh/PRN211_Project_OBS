@@ -42,7 +42,7 @@ namespace PRN211_Project_OBS.Controllers
             {
                 url_part += $"checkCate={checkCate[i]}&";
                 if (i == checkCate.Length - 1) tagnav += GetGenreByID(Int32.Parse(checkCate[i])).name;
-                else tagnav += tagnav += GetGenreByID(Int32.Parse(checkCate[i])).name + ", ";
+                else tagnav += GetGenreByID(Int32.Parse(checkCate[i])).name + ", ";
             }
             string tag = "";
             for (int i = 0; i < checkCate.Length; i++)
@@ -66,6 +66,7 @@ namespace PRN211_Project_OBS.Controllers
             ViewBag.Tag = tag;
             ViewBag.TagNav = tagnav;
             ViewBag.Url_Part = url_part;
+            tagnav = "";
             return View();
         }
 
@@ -78,7 +79,7 @@ namespace PRN211_Project_OBS.Controllers
             {
                 url_part += $"checkCate={checkCate[i]}&";
                 if(i==checkCate.Length-1) tagnav += GetGenreByID(Int32.Parse(checkCate[i])).name;
-                else tagnav += tagnav += GetGenreByID(Int32.Parse(checkCate[i])).name + ", ";
+                else tagnav +=GetGenreByID(Int32.Parse(checkCate[i])).name + ", ";
             }
             string tag = ""; 
             for (int i = 0; i < checkCate.Length; i++)
