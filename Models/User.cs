@@ -7,6 +7,7 @@ namespace PRN211_Project_OBS.Models
     using System.Data.Entity.Spatial;
 
     [Table("User")]
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
