@@ -1,8 +1,4 @@
-﻿@using PRN211_Project_OBS.Models
-
-@{
-    User x = (User)Session["user"];
-}
+﻿
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -59,13 +55,12 @@
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo">
-                            <a href="Home" class="logo">
+                            <a href="@Url.Action("Index","Home")" class="logo">
                                 <img src="~/Content/img/logo.png" />
                             </a>
                         </div>
                     </div>
                     <!-- /LOGO -->
-                    
                 </div>
                 <!-- row -->
             </div>

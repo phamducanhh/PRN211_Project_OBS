@@ -1,14 +1,12 @@
 ﻿@using PRN211_Project_OBS.Controllers
 @using PRN211_Project_OBS.Models
 @{
-    ViewBag.Title = "Index";
-    HomeController home = new HomeController();
-    List<Genre> genres = home.GetGenres();
-    BookDetailController bd = new BookDetailController();
-    Book book = bd.GetBookById(ViewBag.Param_Id);
-    Author author = bd.GetAuthorById(book.author_id.ToString());
-    List<Genre> tag = bd.GetGenreByBookId(book.id.ToString());
-    List<Book> relate = bd.GetRelatedBook(book);
+    ViewBag.Title = "BookDetail";
+    List<Genre> genres = ViewBag.ListGenre;
+    Book book = ViewBag.Book;
+    Author author = ViewBag.Author;
+    List<Genre> tag = ViewBag.GenreBook;
+    List<Book> relate = ViewBag.Relate;
 }
 
 <html lang="en">
@@ -54,7 +52,7 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="hompage">Home</a></li>
+                    <li><a href="Index">Home</a></li>
                     @foreach (var item in genres)
                     {
                         <li><a href="Genre?genre_id=@item.id"> @item.name</a></li>
@@ -75,7 +73,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="breadcrumb-tree">
-                        <li><a href="hompage">Home</a></li>
+                        <li>@Html.ActionLink("Home","Index","Home")</li>
                         <li><a href="#">Books</a></li>
                         <li class="active">@book.title</li>
                     </ul>
@@ -134,7 +132,6 @@
                     </div>
                 </div>
                 <!-- /Product thumb imgs -->
-
                 <!-- Product details -->
                 <div class="col-md-5">
                     <form action="#" method="post">
@@ -180,7 +177,7 @@
                                 <li>Genre:</li>
                                 @foreach (var item in tag)
                                 {
-                                    <li><a href="#">@item.name</a></li>
+                                    <li><a href="Genre?genre_id=@item.id">@item.name</a></li>
                                 }
                             </ul>
 
@@ -220,7 +217,7 @@
                             <div id="tab2" class="tab-pane fade in">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p style="text-align: center">Author: <a href="">@author.name</a></p>
+                                        <p style="text-align: center">Author: <a href="BookOfAuthor?author_id=@author.id">@author.name</a></p>
                                         <p style="text-align: center"><a href="@author.wiki_url">See more on Wikipedia</a></p>
                                     </div>
                                 </div>
@@ -313,8 +310,8 @@
                                     <img src="~/Content/img/@item.image_url" alt="">
                                 </div>
                                 <div class="product-body">
-                                    <input name="quantity" value="1" hidden>                                    
-                                    <h3 class="product-name"><a href="#">@item.title</a></h3>
+                                    <input name="quantity" value="1" hidden>
+                                    <h3 class="product-name"><a href="BookDetail?book_id=@item.id">@item.title</a></h3>
                                     <h4 class="product-price">$ @item.price.00</h4>
                                     <div class="product-rating">
                                         <i class="fa fa-star"></i>

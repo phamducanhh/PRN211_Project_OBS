@@ -1,4 +1,8 @@
-﻿
+﻿@using PRN211_Project_OBS.Models
+
+@{ 
+    List<Orderline> cart = (List<Orderline>) Session["cart"];
+}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -43,10 +47,20 @@
                     <li><a href="http:\\gmail.com"><i class="fa fa-envelope-o"></i> anhpdhe150529@gmail.com</a></li>
                     <li><a href="https://www.google.com/search?q=fpt+university+hanoi&oq=fpt+university+hanoi&aqs=chrome..69i57j46.6323j0j15&sourceid=chrome&ie=UTF-8"><i class="fa fa-map-marker"></i> FPT University Hanoi</a></li>
                 </ul>
+                @if (Session["user"] == null)
+                {
+                    <ul class="header-links pull-right">
+                        <li><a href="@Url.Action("Index","SignIn")"><i class="fa fa-user-o"> SIGN IN</i></a></li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="header-links pull-right">
+                        <li><a href="#">@(((User)Session["user"]).username)</a></li>
+                        <li><a href="@Url.Action("LogOut","SignIn")"><i class="fa fa-sign-out"> SIGN OUT</i></a></li>
+                    </ul>
+                }
 
-                <ul class="header-links pull-right">
-                    <li><a href="#"><i class="fa fa-user-o"> SIGN IN</i></a></li>
-                </ul>
             </div>
         </div>
         <!-- /TOP HEADER -->
@@ -60,7 +74,7 @@
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo">
-                            <a href="Home" class="logo">                               
+                            <a href="@Url.Action("Index","Home")" class="logo">                               
                                 <img src="~/Content/img/logo.png" />
                             </a>
                         </div>
@@ -69,10 +83,11 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form action="#" method="post">
+                            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                            {
                                 <input class="input" type="text" name="searchContent" placeholder="Search Books by Name">
                                 <button class="search-btn" type="submit">Search</button>
-                            </form>
+                            }
                         </div>
                     </div>
                     <!-- /SEARCH BAR -->
@@ -89,6 +104,7 @@
                                 <div class="cart-dropdown">
                                     <div class="cart-list">
                                         <!-- CODE HERE-->
+                                        
                                     </div>
 
                                     <div class="cart-summary">

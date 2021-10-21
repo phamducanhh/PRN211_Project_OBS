@@ -1,12 +1,11 @@
-﻿@using PRN211_Project_OBS.Controllers
-@using PRN211_Project_OBS.Models
+﻿@using PRN211_Project_OBS.Models
 @{
-    ViewBag.Title = "Index";
-    HomeController home = new HomeController();
-    GenreController gc = new GenreController();
+    ViewBag.Title = "Search";
     List<Book> books = ViewBag.ListBook;
-    List<Genre> genres = home.GetGenres();
-    List<Book> bestSeller = home.GetBestSellerBook();
+    string tag = ViewBag.Tag;
+    string url_part = ViewBag.Url_Part;
+    List<Genre> genres = ViewBag.ListGenre;
+    List<Book> bestSeller = ViewBag.ListBestSeller;
     int count = 0;
 }
 
@@ -54,7 +53,7 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="Home">Home</a></li>
+                    <li><a href="Index">Home</a></li>
                     @foreach (var item in genres)
                     {
                         <li><a href="Genre?genre_id=@item.id">@item.name</a></li>
@@ -75,9 +74,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="breadcrumb-tree">
-                        <li><a href="Home">Home</a></li>
+                        <li><a href="Index">Home</a></li>
                         <li>All Categories</li>
-
+                        <li class="active">@ViewBag.TagNav</li>
                     </ul>
                 </div>
             </div>
@@ -213,7 +212,7 @@
                                     }
                                     else
                                     {
-                                        <li><a href="BookByAuthor?author_id=@ViewBag.id&page=@i">@i</a></li>
+                                        <li><a href="Search?searchContent=@(ViewBag.sc)&page=@i">@i</a></li>
                                     }
 
                                 }
@@ -241,3 +240,4 @@
         <script src="~/Scripts/js/main.js"></script>
 </body>
 </html>
+

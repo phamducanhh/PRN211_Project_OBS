@@ -1,14 +1,9 @@
-﻿@using PRN211_Project_OBS.Controllers
-@using PRN211_Project_OBS.Models
+﻿@using PRN211_Project_OBS.Models
 @{
-    ViewBag.Title = "Index";
-    HomeController home = new HomeController();
-    GenreController gc = new GenreController();
+    ViewBag.Title = "Genre";
     List<Book> books = ViewBag.ListBook;
-    string tag = ViewBag.Tag;
-    string url_part = ViewBag.Url_Part;
-    List<Genre> genres = home.GetGenres();
-    List<Book> bestSeller = home.GetBestSellerBook();
+    List<Genre> genres = ViewBag.ListGenre;
+    List<Book> bestSeller = ViewBag.ListBestSeller;
     int count = 0;
 }
 
@@ -56,10 +51,10 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="Home">Home</a></li>
+                    <li>@Html.ActionLink("Home","Index","Home")</li>
                     @foreach (var item in genres)
                     {
-                        <li><a href="Genre?genre_id=@item.id">@item.name</a></li>
+                        <li class="@(item.id==ViewBag.Genre.id?"active":"")"><a href="Genre?genre_id=@item.id">@item.name</a></li>
                     }
                 </ul>
                 <!-- /NAV -->
@@ -77,9 +72,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="breadcrumb-tree">
-                        <li><a href="Home">Home</a></li>
+                        <li><a href="Index">Home</a></li>
                         <li>All Categories</li>
-                        <li class="active">Search Result of @ViewBag.sc</li>
+                        <li class="active">@ViewBag.Genre.name</li>
                     </ul>
                 </div>
             </div>
@@ -104,7 +99,7 @@
                                 @foreach (var item in genres)
                                 {
                                     <div class="input-checkbox">
-                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.id" />
+                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.id" @(item.id == ViewBag.Genre.id ? "checked" : "") />
                                         <label for="@item.id">
                                             <span></span>
                                             @item.name
@@ -129,7 +124,7 @@
                                     <img src="~/Content/img/@item.image_url" alt="">
                                 </div>
                                 <div class="product-body">
-                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                    <h3 class="product-name"><a href="BookDetail?book_id=@item.id">@item.title</a></h3>
                                     <h4 class="product-price">$ @item.price.00</h4>
                                 </div>
                             </div>
@@ -172,7 +167,7 @@
                                                 </div>
                                                 <div class="product-body">
                                                     <input name="quantity" value="1" hidden>
-                                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                                    <h3 class="product-name"><a href="BookDetail?book_id=@item.id">@item.title</a></h3>
                                                     <h4 class="product-price">$ @item.price.00</h4>
                                                     <div class="product-rating">
                                                         <i class="fa fa-star"></i>
@@ -215,8 +210,9 @@
                                     }
                                     else
                                     {
-                                        <li><a href="SearchBook?searchContent=@(ViewBag.sc)&page=@i">@i</a></li>
+                                        <li><a href="Genre?genre_id=@ViewBag.Genre.id&page=@i">@i</a></li>
                                     }
+
                                 }
                             </ul>
                         </div>
@@ -242,3 +238,5 @@
         <script src="~/Scripts/js/main.js"></script>
 </body>
 </html>
+
+

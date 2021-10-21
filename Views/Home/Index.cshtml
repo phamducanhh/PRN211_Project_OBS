@@ -2,10 +2,9 @@
 @using PRN211_Project_OBS.Models
 @{
     ViewBag.Title = "Home Page";
-    HomeController hs = new HomeController();
-    List<Genre> genres = hs.GetGenres();
-    List<Book> newBook = hs.GetNewestBook();
-    List<Book> bestSeller = hs.GetBestSellerBook();
+    List<Genre> genres = ViewBag.ListGenre;
+    List<Book> newBook = ViewBag.ListNewBook;
+    List<Book> bestSeller = ViewBag.ListBestSeller;
 }
 
 <html lang="en">
@@ -50,10 +49,10 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
+                    <li class="active">@Html.ActionLink("Home","Index","Home")</li>
                     @foreach (var item in genres)
                     {
-                        <li><a href="Genre?genre_id=@item.id"> @item.name</a></li>
+                        <li>@Html.ActionLink(item.name,"Genre","Home",new { genre_id=item.id}, htmlAttributes: null)</li>
                     }
                 </ul>
                 <!-- /NAV -->
@@ -88,7 +87,7 @@
                                 <div class="products-slick" data-nav="#slick-nav-1">
                                     @foreach (var item in newBook)
                                     {
-                                        <form action="#" method="post">
+                                        <form action="Cart/Add" method="post">
                                             <div class="product">
                                                 <div class="product-img">
                                                     <img src="~/Content/img/@item.image_url" alt="">
@@ -97,7 +96,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="product-body">                                                   
-                                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                                    <h3 class="product-name">@Html.ActionLink(item.title, "BookDetail", "Home", new { book_id = item.id }, htmlAttributes: null)</h3>
                                                     <h4 class="product-price">$ @item.price.00 </h4>
                                                     <div class="product-rating">
                                                         <i class="fa fa-star"></i>
@@ -111,7 +110,7 @@
                                                         <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                                     </div>
                                                 </div>
-                                                <!--URL Pattern-->  <input name="url" value="" hidden>
+                                                <!--URL Pattern-->  <input name="url" value="@ViewBag.Url" hidden>
                                                 <!--Quantity-->     <input name="quantity" value="1" hidden>
                                                 <div class="add-to-cart">
                                                     <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
