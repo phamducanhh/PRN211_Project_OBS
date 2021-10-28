@@ -1,12 +1,9 @@
-﻿@using PRN211_Project_OBS.Controllers
-@using PRN211_Project_OBS.Models
+﻿@using PRN211_Project_OBS.Models
 @{
-    ViewBag.Title = "Index";
-    HomeController home = new HomeController();
-    GenreController gc = new GenreController();
+    ViewBag.Title = "Genre";
     List<Book> books = ViewBag.ListBook;
-    List<Genre> genres = home.GetGenres();
-    List<Book> bestSeller = home.GetBestSellerBook();
+    List<Genre> genres = ViewBag.ListGenre;
+    List<Book> bestSeller = ViewBag.ListBestSeller;
     int count = 0;
 }
 
@@ -54,12 +51,12 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="hompage">Home</a></li>
+                    <li>@Html.ActionLink("Home","Index","Home")</li>
                     @foreach (var item in genres)
                     {
                         <li class="@(item.id==ViewBag.Genre.id?"active":"")"><a href="Genre?genre_id=@item.id">@item.name</a></li>
                     }
-                    </ul>
+                </ul>
                 <!-- /NAV -->
             </div>
             <!-- /responsive-nav -->
@@ -75,7 +72,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="breadcrumb-tree">
-                        <li><a href="Home">Home</a></li>
+                        <li><a href="Index">Home</a></li>
                         <li>All Categories</li>
                         <li class="active">@ViewBag.Genre.name</li>
                     </ul>
@@ -98,17 +95,17 @@
                     <div class="aside">
                         <h3 class="aside-title">Categories</h3>
                         <div class="checkbox-filter">
-                            <form action="filter" method="post">
+                            <form action="Filter" method="post">
                                 @foreach (var item in genres)
                                 {
                                     <div class="input-checkbox">
-                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.name" @(item.id==ViewBag.Genre.id?"checked":"")/>
+                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.id" @(item.id == ViewBag.Genre.id ? "checked" : "") />
                                         <label for="@item.id">
                                             <span></span>
                                             @item.name
                                         </label>
                                     </div>
-                                }                               
+                                }
                                 <p></p>
                                 <div class="search-btn">
                                     <p><input type="submit" value="Filter Here">
@@ -126,8 +123,8 @@
                                 <div class="product-img">
                                     <img src="~/Content/img/@item.image_url" alt="">
                                 </div>
-                                <div class="product-body">                                
-                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                <div class="product-body">
+                                    <h3 class="product-name"><a href="BookDetail?book_id=@item.id">@item.title</a></h3>
                                     <h4 class="product-price">$ @item.price.00</h4>
                                 </div>
                             </div>
@@ -163,14 +160,14 @@
                                 {
 
                                     <div class="col-md-4 col-xs-6">
-                                        <form action="#" method="post">
+                                        <form action="/Cart/Add?book_id=@item.id" method="post">
                                             <div class="product">
                                                 <div class="product-img">
                                                     <img src="~/Content/img/@item.image_url" alt="">
                                                 </div>
                                                 <div class="product-body">
                                                     <input name="quantity" value="1" hidden>
-                                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                                    <h3 class="product-name"><a href="BookDetail?book_id=@item.id">@item.title</a></h3>
                                                     <h4 class="product-price">$ @item.price.00</h4>
                                                     <div class="product-rating">
                                                         <i class="fa fa-star"></i>
@@ -184,7 +181,7 @@
                                                         <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                                     </div>
                                                 </div>
-                                                <!--URL PATTERN --> <input name="url" value="" hidden>
+                                                <!--URL PATTERN --> <input name="url" value="@ViewBag.Url" hidden>
                                                 <div class="add-to-cart">
                                                     <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                                 </div>
@@ -201,7 +198,6 @@
                             </div>
                         </div>
                         <!-- /store products -->
-
                         <!-- store bottom filter -->
                         <div class="store-filter clearfix">
                             <span class="store-qty">Showing 6 products per page</span>
@@ -224,22 +220,22 @@
                     </div>
                     <!-- /STORE -->
                 </div>
-            <!-- /row -->
+                <!-- /row -->
+            </div>
+            <!-- /container -->
         </div>
-        <!-- /container -->
-    </div>
-    <!-- /SECTION -->
-    <!-- FOOTER -->
-    <jsp:include page="Footer.jsp"></jsp:include>
-    <!-- /FOOTER -->
-    <!-- jQuery Plugins -->
-    <!-- jQuery Plugins -->
-    <script src="~/Scripts/js/jquery.min.js"></script>
-    <script src="~/Scripts/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/js/slick.min.js"></script>
-    <script src="~/Scripts/js/nouislider.min.js"></script>
-    <script src="~/Scripts/js/jquery.zoom.min.js"></script>
-    <script src="~/Scripts/js/main.js"></script>
+        <!-- /SECTION -->
+        <!-- FOOTER -->
+        <jsp:include page="Footer.jsp"></jsp:include>
+        <!-- /FOOTER -->
+        <!-- jQuery Plugins -->
+        <!-- jQuery Plugins -->
+        <script src="~/Scripts/js/jquery.min.js"></script>
+        <script src="~/Scripts/js/bootstrap.min.js"></script>
+        <script src="~/Scripts/js/slick.min.js"></script>
+        <script src="~/Scripts/js/nouislider.min.js"></script>
+        <script src="~/Scripts/js/jquery.zoom.min.js"></script>
+        <script src="~/Scripts/js/main.js"></script>
 </body>
 </html>
 

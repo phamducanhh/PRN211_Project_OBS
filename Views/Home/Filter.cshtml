@@ -1,12 +1,11 @@
-﻿@using PRN211_Project_OBS.Controllers
-@using PRN211_Project_OBS.Models
+﻿@using PRN211_Project_OBS.Models
 @{
-    ViewBag.Title = "Index";
-    HomeController home = new HomeController();
-    GenreController gc = new GenreController();
+    ViewBag.Title = "Filter";
     List<Book> books = ViewBag.ListBook;
-    List<Genre> genres = home.GetGenres();
-    List<Book> bestSeller = home.GetBestSellerBook();
+    string tag = ViewBag.Tag;
+    string url_part = ViewBag.Url_Part;
+    List<Genre> genres = ViewBag.ListGenre;
+    List<Book> bestSeller = ViewBag.ListBestSeller;
     int count = 0;
 }
 
@@ -54,7 +53,7 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="Home">Home</a></li>
+                    <li>@Html.ActionLink("Home","Index","Home")</li>
                     @foreach (var item in genres)
                     {
                         <li><a href="Genre?genre_id=@item.id">@item.name</a></li>
@@ -75,9 +74,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="breadcrumb-tree">
-                        <li><a href="Home">Home</a></li>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>All Categories</li>
-
+                        <li class="active">@ViewBag.TagNav</li>
                     </ul>
                 </div>
             </div>
@@ -102,7 +101,7 @@
                                 @foreach (var item in genres)
                                 {
                                     <div class="input-checkbox">
-                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.id" />
+                                        <input type="checkbox" name="checkCate" id="@item.id" value="@item.id" @(tag.Contains(item.id.ToString()) ? "checked" : "") />
                                         <label for="@item.id">
                                             <span></span>
                                             @item.name
@@ -127,7 +126,7 @@
                                     <img src="~/Content/img/@item.image_url" alt="">
                                 </div>
                                 <div class="product-body">
-                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                    <h3 class="product-name"><a href="BookDetail?book_id=@item.id">@item.title</a></h3>
                                     <h4 class="product-price">$ @item.price.00</h4>
                                 </div>
                             </div>
@@ -161,16 +160,15 @@
                             <div class="row">
                                 @foreach (var item in books)
                                 {
-
                                     <div class="col-md-4 col-xs-6">
-                                        <form action="#" method="post">
+                                        <form action="/Cart/Add?book_id=@item.id" method="post">
                                             <div class="product">
                                                 <div class="product-img">
                                                     <img src="~/Content/img/@item.image_url" alt="">
                                                 </div>
                                                 <div class="product-body">
                                                     <input name="quantity" value="1" hidden>
-                                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                                    <h3 class="product-name"><a href="BookDetail?book_id=@item.id">@item.title</a></h3>
                                                     <h4 class="product-price">$ @item.price.00</h4>
                                                     <div class="product-rating">
                                                         <i class="fa fa-star"></i>
@@ -184,7 +182,7 @@
                                                         <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                                     </div>
                                                 </div>
-                                                <!--URL PATTERN --> <input name="url" value="" hidden>
+                                                <!--URL PATTERN --> <input name="url" value="@ViewBag.Url" hidden>
                                                 <div class="add-to-cart">
                                                     <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                                 </div>
@@ -213,7 +211,7 @@
                                     }
                                     else
                                     {
-                                        <li><a href="BookByAuthor?author_id=@ViewBag.id&page=@i">@i</a></li>
+                                        <li><a href="Filter?@(url_part)page=@i">@i</a></li>
                                     }
 
                                 }
