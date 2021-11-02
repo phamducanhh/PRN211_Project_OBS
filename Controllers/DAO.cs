@@ -118,6 +118,7 @@ namespace PRN211_Project_OBS.Controllers
         {
             return db.Authors.SqlQuery($"SELECT * FROM Author WHERE id = {id}").First();
         }
+
         #endregion
 
         //User DAO 
@@ -211,6 +212,44 @@ namespace PRN211_Project_OBS.Controllers
                 return 1;
             }
             
+        }
+        #endregion
+
+        //AdminHomeDAO
+        #region
+        public List<Book> GetBooks()
+        {
+            return db.Books.SqlQuery("Select * from Book").ToList();
+        }
+
+        public Author GetAuthorByID(int id)
+        {
+            return db.Authors.SqlQuery($"select * from Author where id = '{id}'").First();
+        }
+
+        public List<Author> GetAllAuthors()
+        {
+            return db.Authors.ToList();
+        }
+
+        public Author GetAuthorByName(string authName)
+        {
+            return db.Authors.Where(auth => auth.name == authName).FirstOrDefault();
+        }
+
+        public Book GetBookByTitle(string title)
+        {
+            return db.Books.Where(bk => bk.title == title).FirstOrDefault();
+        }
+
+        public int InsertGenreBook(int bookId, int genreId)
+        {
+            return db.Database.ExecuteSqlCommand($"insert into Book_Genre (book_id, genre_id ) values ({bookId},{genreId})");
+        }
+
+        public int DeleteBookById(int bookId)
+        {
+            return 0;
         }
         #endregion
     }
