@@ -14,6 +14,12 @@ namespace PRN211_Project_OBS
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "User",
+                "User/{action}/{id}",
+                defaults: new { controller = "User", action = "List", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

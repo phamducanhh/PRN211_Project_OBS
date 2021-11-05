@@ -152,6 +152,45 @@ namespace PRN211_Project_OBS.Controllers
             db.Users.Add(new User() { email = email, password = password, username = name, avatar_url = "https://avatars.githubusercontent.com/u/17879520?v=4", role_id = 2 });
             db.SaveChanges();
         }
+
+        public List<User> AllUser()
+        {
+            return db.Users.SqlQuery("select * From [User]").ToList();
+        }
+
+        public User GetUserByIdWithRecentBillInOneMonth(int id)
+        {
+            try
+            {
+                User user = db.Users.SqlQuery($"SELECT * FROM [User] WHERE BINARY_CHECKSUM(id) = BINARY_CHECKSUM('{id}')").First();
+                List<Bill> bills = db.Bills.SqlQuery($"SELECT * FROM [Bill] WHERE BINARY_CHECKSUM(user_id) = BINARY_CHECKSUM('{id}') AND CAST([Bill].date as date) >= CAST(GETDATE()>30 as date)").ToList();
+                user.Bills = bills;
+                return user;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public void DeleteUserById(int id)
+        {
+            db.Users.SqlQuery($"DELETE FROM [User] WHERE BINARY_CHECKSUM(id) = BINARY_CHECKSUM('{id}')");
+        }
+
+        public void EditUser(User newuser, int id)
+        {
+            var result = db.Users.SingleOrDefault(u => u.id == id);
+            if (result != null)
+            {
+                result.email = newuser.email;
+                result.password = newuser.password;
+                result.username = newuser.username;
+                result.avatar_url = newuser.avatar_url;
+                result.role_id = newuser.role_id;
+                db.SaveChanges();
+            }
+        }
         #endregion
 
         //Orderline DAO

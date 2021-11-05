@@ -1,0 +1,87 @@
+﻿@model PRN211_Project_OBS.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.avatar_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.avatar_url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.role_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.role_id)
+        </dd>
+
+    </dl>
+
+    <hr />
+    <h2>Bills</h2>
+    @foreach (var item in Model.Bills)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.telephone)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.payment)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.status)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.total)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.date)
+    </td>
+</tr>
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
