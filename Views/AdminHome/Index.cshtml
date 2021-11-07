@@ -1,9 +1,41 @@
-﻿
+﻿@using PRN211_Project_OBS.Controllers
+@using PRN211_Project_OBS.Models
 @{
-    ViewBag.Title = "AdminHome";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Book> allBooks = ViewBag.Books;
+    DAO dao = new DAO();
 }
 
-<h2>AdminHome</h2>
-<h4>Ahihihi</h4>
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            <button type="button" class="btn btn-danger text-white float-right"><i class="fas fa-plus"></i> Add New Book</button>
+            <div class="table-responsive">
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">#</th>
+                            <th class="border-top-0">Title</th>
+                            <th class="border-top-0">Author</th>
+                            <th class="border-top-0">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Book item in allBooks)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td class="txt-oflo">@item.title</td>
+                                <td>@dao.GetAuthorByID(item.author_id).name</td>
+                                <td><span class="text-success">$@item.price</span></td>
+                                <td><a href="#"><i class="fas fa-edit"></i></a></td>
+                                <td><a href="#"><i class="fas fa-trash-alt"></i></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 

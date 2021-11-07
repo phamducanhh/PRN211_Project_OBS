@@ -244,7 +244,8 @@ namespace PRN211_Project_OBS.Controllers
 
         public int InsertGenreBook(int bookId, int genreId)
         {
-            return db.Database.ExecuteSqlCommand($"insert into Book_Genre (book_id, genre_id ) values ({bookId},{genreId})");
+            return db.Database.ExecuteSqlCommand($"insert into Book_Genre " +
+                $"(book_id, genre_id ) values ({bookId},{genreId})");
         }
 
         public int DeleteBookById(int bookId)
