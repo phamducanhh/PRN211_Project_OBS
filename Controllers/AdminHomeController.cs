@@ -17,5 +17,18 @@ namespace PRN211_Project_OBS.Controllers
             ViewBag.Books = dao.GetBooks();
             return View();
         }
+
+        public ActionResult AddBook()
+        {
+            ViewBag.GenreList = dao.GetGenres();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddBook(string title, string imageUrl, string author, int[] genreId, string description, float price)
+        {
+
+            return RedirectToAction("Index");
+        }
     }
 }
