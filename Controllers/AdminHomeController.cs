@@ -47,5 +47,37 @@ namespace PRN211_Project_OBS.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult EditBook()
+        {
+            string id = Request.Params["id"];
+            //List<Genre> genreIdArray = dao.GetGenreByBookId(id);
+            ViewBag.GenreList = dao.GetGenres();
+            ViewBag.AuthorList = dao.GetAllAuthors();
+            ViewBag.Book = dao.GetBookById(id);
+            ViewBag.GenreListOfBook = dao.GetGenreByBookId(id);
+            //ViewBag.GenreByBookID ;
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditBook(string id, string title, string imageUrl, int author, int[] genre, string description, float price)
+        {
+            Book book = dao.GetBookByIntID(Convert.ToInt32(id));
+            db.Database.ExecuteSqlCommand($"update Book set image_url = '{imageUrl}', author_id = {author}, " +
+                $"description = '{description}', price={price} where id={book.id}");
+            db.SaveChanges();
+            dao.DeleteBookGenreId(book.id);
+            db.SaveChanges();
+            for (int i = 0; i < genre.Length; i++)
+            {
+                dao.InsertGenreBook(book.id, genre[i]);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        
     }
 }

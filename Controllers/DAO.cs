@@ -110,6 +110,14 @@ namespace PRN211_Project_OBS.Controllers
         {
             return db.Genres.SqlQuery($"select * from Genre where id = '{id}'").First();
         }
+
+        public bool IsInList(List<Genre> g, int id){
+            foreach(var x in g){
+                if(x.id == id) return true;
+            }
+            return false;
+        }
+
         #endregion
 
         //Author DAO
@@ -191,6 +199,11 @@ namespace PRN211_Project_OBS.Controllers
             db.Orderlines.Add(new Orderline { bill_id = IDOfNewBill(), book_id = orderline.book_id, quantity = orderline.quantity });
             db.SaveChanges();
         }
+
+        public List<Orderline> GetOrderlineByBookId(int id)
+        {
+            return db.Orderlines.SqlQuery($"select * from Orderline where book_id = '{id}'").ToList();
+        }
         #endregion
 
         //Bill DAO
@@ -212,6 +225,14 @@ namespace PRN211_Project_OBS.Controllers
                 return 1;
             }
             
+        }
+        #endregion
+
+        //StockDAO
+        #region
+        public Stock GetStockByBookId(int id)
+        {
+            return db.Stocks.SqlQuery($"select * from Stock where book_id = '{id}'").First();
         }
         #endregion
 
@@ -248,10 +269,35 @@ namespace PRN211_Project_OBS.Controllers
                 $"(book_id, genre_id ) values ({bookId},{genreId})");
         }
 
-        public int DeleteBookById(int bookId)
+        public Book GetBookByIntID(int id)
         {
-            return 0;
+            return db.Books.Where(b => b.id == id).FirstOrDefault();
         }
+
+        public int GetGenreByBookIntID(int id)
+        {
+            return db.Database.ExecuteSqlCommand($"select book_id, genre_id from Book_Genre where book_id={id}");
+        }
+
+        public int DeleteBookGenreId(int BookId)
+        {
+            return db.Database.ExecuteSqlCommand($"delete from Book_Genre where book_id = {BookId}");
+        }
+
+        //public void DeleteBookById(int book_id)
+        //{
+        //    db.Database.ExecuteSqlCommand($"delete from Book_Genre where book_id = '{book_id}'");
+        //    db.Database.ExecuteSqlCommand($"delete from Review where book_id = '{book_id}'");
+        //    db.Database.ExecuteSqlCommand($"delete from Stock where book_id = '{book_id}'");
+        //    db.Database.ExecuteSqlCommand($"delete from Book where id = '{book_id}'");
+        //    db.SaveChanges();
+        //}
+
+        //public void ChangeStatus(int book_id, int status)
+        //{
+        //    db.Database.ExecuteSqlCommand($"update Book set [status] = 0 where id = '{book_id}'");
+        //    db.SaveChanges();
+        //}
         #endregion
     }
 }

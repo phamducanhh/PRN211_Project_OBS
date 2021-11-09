@@ -739,6 +739,7 @@
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\AdminHome\Index.cshtml" />
     <Content Include="Views\AdminHome\AddBook.cshtml" />
+    <Content Include="Views\AdminHome\EditBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
