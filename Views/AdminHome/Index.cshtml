@@ -26,7 +26,7 @@
                         <tr>
                             <td>@item.id</td>
                             <td class="txt-oflo">@item.title</td>
-                            <td>@dao.GetAuthorByID(item.author_id).name</td>
+                            <td>@dao.GetAuthorById(item.author_id.ToString()).name</td>
                             <td><span class="text-success">$@item.price</span></td>
                             <td><a href="/AdminHome/EditBook?id=@item.id"><i class="fas fa-edit"></i></a></td>
                             <td><a href="#"><i class="fas fa-trash-alt"></i></a></td>

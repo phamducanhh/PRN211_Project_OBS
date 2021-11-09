@@ -243,19 +243,9 @@ namespace PRN211_Project_OBS.Controllers
             return db.Books.SqlQuery("Select * from Book").ToList();
         }
 
-        public Author GetAuthorByID(int id)
-        {
-            return db.Authors.SqlQuery($"select * from Author where id = '{id}'").First();
-        }
-
         public List<Author> GetAllAuthors()
         {
             return db.Authors.ToList();
-        }
-
-        public Author GetAuthorByName(string authName)
-        {
-            return db.Authors.Where(auth => auth.name == authName).FirstOrDefault();
         }
 
         public Book GetBookByTitle(string title)
@@ -272,11 +262,6 @@ namespace PRN211_Project_OBS.Controllers
         public Book GetBookByIntID(int id)
         {
             return db.Books.Where(b => b.id == id).FirstOrDefault();
-        }
-
-        public int GetGenreByBookIntID(int id)
-        {
-            return db.Database.ExecuteSqlCommand($"select book_id, genre_id from Book_Genre where book_id={id}");
         }
 
         public int DeleteBookGenreId(int BookId)
