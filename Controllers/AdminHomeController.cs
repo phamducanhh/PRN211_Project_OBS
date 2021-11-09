@@ -35,8 +35,7 @@ namespace PRN211_Project_OBS.Controllers
                 image_url = imageUrl,
                 author_id = author,
                 description = description,
-                price = price,
-                status = 1
+                price = price
             };
             db.Books.Add(book);
             db.SaveChanges();
