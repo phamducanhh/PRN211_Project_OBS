@@ -16,7 +16,7 @@ namespace PRN211_Project_OBS
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "AdminHome", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "AdminBill", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -212,6 +212,23 @@ namespace PRN211_Project_OBS.Controllers
             }
             
         }
+        public List<Bill> GetAllBill()
+        {
+            string sql = "select *from Bill";
+            return db.Bills.SqlQuery(sql).ToList();
+        }
+         public void ChangeStatus(int id,string status)
+        {
+            var change = db.Bills.SingleOrDefault(c => c.id == id);
+            change.status = status;
+            db.SaveChanges();
+        }
+        public List<Orderline> GetBillDeltai(int id)
+        {
+           
+            return db.Orderlines.SqlQuery($"select *from OrderLine where bill_id ={id}").ToList();
+        }
         #endregion
+        
     }
 }
