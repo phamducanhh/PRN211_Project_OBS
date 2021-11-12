@@ -10,8 +10,36 @@
     <!-- .col -->
     <div class="col-md-12 col-lg-8 col-sm-12">
         <div class="card white-box p-0">
-            <div class="card-body">
+            <div class="card-body position-relative>
                 <h3 class="box-title mb-0">Author Listing</h3>
+                <button id="btn" class="btn btn-danger border-0 float-right text-white"><i class="fas fa-plus"> Add author</i></button>
+                <div id="myModal" class="modal w-25">
+                    <!-- Modal content -->
+                    <form class="form-horizontal form-material" action="/AuthorAdmin/AddAuthor" method="post">
+                        <div class="modal-content">
+                            <div class="modal-header border-0">
+                                <span class="close">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group mb-4">
+                                    <label class="col-md-12 p-0">Name</label>
+                                    <div class="col-md-12 border-bottom p-0">
+                                        <input type="text" placeholder="Mario Puzo" class="form-control p-0 border-0" name="authorName">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="col-md-12 p-0">Wiki URL</label>
+                                    <div class="col-md-12 border-bottom p-0">
+                                        <input type="text" class="form-control p-0 border-0" name="wikiUrl">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0">
+                                <button type="submit" class="btn btn-danger text-white">Add</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             @foreach (var item in authors)
             {
@@ -23,7 +51,7 @@
                             <h5 class="font-medium">@item.name</h5>
                             <a href="@item.wiki_url" class="mb-3 d-block">@item.wiki_url</a>
                             <div class="comment-footer d-md-flex align-items-center">
-                                <a href="/AuthorAdmin/OwnBook" class="badge bg-primary rounded">See Own Book</a>
+                                <button onclick="location.href = '/AuthorAdmin/OwnBook?id=@item.id'" class="badge bg-primary rounded card-hover border-0">See Own Book</button>
                             </div>
                         </div>
                     </div>
@@ -34,3 +62,20 @@
     </div>
     <!-- /.col -->
 </div>
+
+<script type="text/javascript">
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById('btn');
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+</script>

@@ -17,5 +17,26 @@ namespace Final_PRN211_OBS_Project.Controllers
             ViewBag.AuthorList = dao.GetAllAuthors();
             return View();
         }
+
+        public ActionResult OwnBook()
+        {
+            string authId = Request.Params["id"];
+            ViewBag.Author = dao.GetAuthorById(authId);
+            ViewBag.OwnBook = dao.GetBooksByAuthor(Convert.ToInt32(authId));
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddAuthor(string authorName, string wikiUrl)
+        {
+            Author author = new Author
+            {
+                name = authorName,
+                wiki_url = wikiUrl
+            };
+            db.Authors.Add(author);
+            db.SaveChanges();
+            return RedirectToAction("Index", "AuthorAdmin");
+        }
     }
 }

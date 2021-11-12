@@ -748,6 +748,7 @@
     <Content Include="Views\UserAdmin\Index.cshtml" />
     <Content Include="Views\UserAdmin\UserDetail.cshtml" />
     <Content Include="Views\AuthorAdmin\Index.cshtml" />
+    <Content Include="Views\AuthorAdmin\OwnBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
