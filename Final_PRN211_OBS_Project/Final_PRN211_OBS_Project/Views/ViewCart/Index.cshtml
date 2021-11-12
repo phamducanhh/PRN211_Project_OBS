@@ -1,0 +1,133 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Orderline> lo =  ViewBag.cart;
+    DAO dao = new DAO();
+
+}
+
+
+<!-- /NAVIGATION -->
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Checkout</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="/Home">Home</a></li>
+                    <li class="active">Checkout</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-7">
+                <!-- Billing Details -->
+                <div class="table-responsive">
+                    <table class="table no-wrap">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0">PRODUCT</th>
+                                <th class="border-top-0">IMAGE</th>
+                                <th class="border-top-0">QUANTITY</th>
+                                <!--<th class="border-top-0" rowspan="2">ACTION</th>-->
+
+                            </tr>
+                        </thead>
+                        <tbody><form id="form-quantity" action="/PreCheckout/Index" method="post">
+                            @if (lo == null)
+                            {<p class="text-success" style="font-size: 20px">You have no order in this orderline</p>}
+                            else
+                            {
+                            foreach (var item in lo)
+                            {
+                            <tr>
+                                <td><img src="~/Content/img/@dao.GetBookById(item.book_id.ToString()).image_url" style="width:150px;height:150px"></td>
+                                <td class="txt-oflo" style="font-size: 30px ">@dao.GetBookById(item.book_id.ToString()).title</td>
+
+                                <td>      <input name="quantity" type="number" value="@item.quantity"><span class="text-success"></span></td>
+
+
+                                <!--<td><a href="/ViewBillHistory/BillDetail?id="><i class="fas fa-trash-alt"></i>View</a></td>-->
+                            </tr>
+                            }}
+                            </form>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /Billing Details -->
+                <!-- Shiping Details -->
+                
+                <!-- /Shiping Details -->
+                <!-- Order notes -->
+                
+                <!-- /Order notes -->
+            </div>
+
+            <!-- Order Details -->
+            <div class="col-md-5 order-details">
+                <div class="section-title text-center">
+                    <h3 class="title">Your Order</h3>
+                </div>
+                <div class="order-summary">
+                    <div class="order-col">
+                        <div><strong>PRODUCT</strong></div>
+                        <div><strong>TOTAL</strong></div>
+                    </div>
+
+                    <div class="order-products">
+                        @if (lo == null)
+                        {
+                            <p class="text-center" style="font-size:20px">There is no record</p>
+                        }
+                        else
+                        {
+                            foreach (var item in lo)
+                            {
+                                double tot = dao.GetBookById(item.book_id.ToString()).price * item.quantity;
+
+
+                        <div class="order-col">
+                            <div>@dao.GetBookById(item.book_id.ToString()).title</div>
+                          
+                        </div>
+                            }
+                        }
+
+                    </div>
+                    
+                    
+                </div>
+                
+                
+                <a class="primary-btn order-submit" onclick="Formsubmit()">Place order</a>
+            </div>
+            <!-- /Order Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+<script>
+    function Formsubmit() {
+        var form = document.getElementById("form-quantity");
+        console.log(form);
+        form.submit();
+    }
+</script>

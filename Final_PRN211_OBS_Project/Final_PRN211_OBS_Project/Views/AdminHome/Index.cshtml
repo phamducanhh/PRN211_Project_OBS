@@ -1,0 +1,45 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Book> allBooks = ViewBag.Books;
+    DAO dao = new DAO();
+}
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            <button type="button" class="btn btn-danger text-white float-right" onclick="location.href='/AdminHome/AddBook'"><i class="fas fa-plus"></i> Add New Book</button>
+            @*<a href="AddBook">content</a>*@
+            <div class="table-responsive">
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">ID</th>
+                            <th class="border-top-0">Title</th>
+                            <th class="border-top-0">Author</th>
+                            <th class="border-top-0">Price</th>
+                            <th class="border-top-0">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Book item in allBooks)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td class="txt-oflo">@item.title</td>
+                                <td>@dao.GetAuthorById(item.author_id.ToString()).name</td>
+                                <td><span class="text-success">$@item.price</span></td>
+                                <td>@(item.status==false?"Hide":"Show")</td>
+                                <td><a href="/AdminHome/EditBook?id=@item.id"><i class="fas fa-edit"></i></a></td>
+                                <td><a href="/AdminHome/DeleteBook?id=@item.id"><i class="fas fa-trash-alt"></i></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
