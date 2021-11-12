@@ -402,6 +402,7 @@
     <Content Include="Content\img\ARWEDY0029.png" />
     <Content Include="Content\img\ASTMSW0015.png" />
     <Content Include="Content\img\ATTWNN0021.png" />
+    <Content Include="Content\img\avatar-author.png" />
     <Content Include="Content\img\CRKHSE0018.png" />
     <Content Include="Content\img\CSTLAI0009.png" />
     <Content Include="Content\img\DRCULA0003.png" />
@@ -746,10 +747,10 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\UserAdmin\Index.cshtml" />
     <Content Include="Views\UserAdmin\UserDetail.cshtml" />
+    <Content Include="Views\AuthorAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AuthorAdmin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

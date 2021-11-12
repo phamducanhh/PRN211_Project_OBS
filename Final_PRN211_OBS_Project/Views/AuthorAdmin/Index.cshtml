@@ -1,0 +1,36 @@
+﻿@using Final_PRN211_OBS_Project.Controllers
+@using Final_PRN211_OBS_Project.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Author> authors = ViewBag.AuthorList;
+}
+
+<div class="row">
+    <!-- .col -->
+    <div class="col-md-12 col-lg-8 col-sm-12">
+        <div class="card white-box p-0">
+            <div class="card-body">
+                <h3 class="box-title mb-0">Author Listing</h3>
+            </div>
+            @foreach (var item in authors)
+            {
+                <div class="comment-widgets">
+                    <!-- Comment Row -->
+                    <div class="d-flex flex-row comment-row p-3 mt-0">
+                        <div class="p-2"><img src="~/Content/img/avatar-author.png" alt="user" width="50" class="rounded-circle"></div>
+                        <div class="comment-text ps-2 ps-md-3 w-100">
+                            <h5 class="font-medium">@item.name</h5>
+                            <a href="@item.wiki_url" class="mb-3 d-block">@item.wiki_url</a>
+                            <div class="comment-footer d-md-flex align-items-center">
+                                <a href="/AuthorAdmin/OwnBook" class="badge bg-primary rounded">See Own Book</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+    </div>
+    <!-- /.col -->
+</div>
