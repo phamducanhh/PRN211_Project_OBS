@@ -1,0 +1,89 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "UserDetail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    User x = ViewBag.User;
+    DAO dao = new DAO();
+}
+
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Row -->
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-4 col-xlg-3 col-md-12">
+            <div class="white-box">
+                <div class="user-bg">
+                    <img width="100%" alt="user" src="">
+                    <div class="overlay-box">
+                        <div class="user-content">
+                            <a href="javascript:void(0)">
+                                <img src="https://avatars.githubusercontent.com/u/17879520?v=4"
+                                     class="thumb-lg img-circle" alt="img">
+                            </a>
+                            <h4 class="text-white mt-2">@x.username</h4>
+                            <h5 class="text-white mt-2">@x.email</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <!-- Column -->
+        <div class="col-lg-8 col-xlg-9 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="form-horizontal form-material">
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0"><kbd>Full Name</kbd></label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="text" value="@x.username"
+                                       class="form-control p-0 border-0" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="example-email" class="col-md-12 p-0"><kbd>Email</kbd></label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="email" value="@x.email"
+                                       class="form-control p-0 border-0" name="example-email"
+                                       id="example-email" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0"><kbd>Password</kbd></label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="password" value="@x.password" class="form-control p-0 border-0" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0"><kbd>Role</kbd></label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="text" value="@dao.GetRole(x.role_id).title"
+                                       class="form-control p-0 border-0" readonly>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+    <!-- Row -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Container fluid  -->

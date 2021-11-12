@@ -1,0 +1,208 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@{
+    ViewBag.Title = "Home Page";
+    List<Genre> genres = ViewBag.ListGenre;
+    List<Book> newBook = ViewBag.ListNewBook;
+    List<Book> bestSeller = ViewBag.ListBestSeller;
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>A book a day | Give the stress away</title>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Slick -->
+    <link type="text/css" href="~/Content/css/slick.css" rel="stylesheet" />
+    <link type="text/css" href="~/Content/css/slick-theme.css" rel="stylesheet" />
+
+    <!-- nouislider -->
+    <link type="text/css" href="~/Content/css/nouislider.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome Icon -->
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" href="~/Content/css/style.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav id="navigation">
+        <!-- container -->
+        <div class="container">
+            <!-- responsive-nav -->
+            <div id="responsive-nav">
+                <!-- NAV -->
+                <ul class="main-nav nav navbar-nav">
+                    <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+                    @foreach (var item in genres)
+                    {
+                        <li>@Html.ActionLink(item.name, "Genre", "Home", new { genre_id = item.id }, htmlAttributes: null)</li>
+                    }
+                </ul>
+                <!-- /NAV -->
+            </div>
+            <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+    </nav>
+    <!-- /NAVIGATION -->
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+
+                <!-- section title -->
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h3 class="title">New Books</h3>
+                    </div>
+                </div>
+                <!-- /section title -->
+                <!-- Products tab & slick -->
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="products-tabs">
+                            <!-- tab -->
+                            <div id="tab1" class="tab-pane active">
+                                <div class="products-slick" data-nav="#slick-nav-1">
+                                    @foreach (var item in newBook)
+                                    {
+                                        <form action="/Cart/Add?book_id=@item.id" method="post">
+                                            <div class="product">
+                                                <div class="product-img">
+                                                    <img src="~/Content/img/@item.image_url" alt="">
+                                                    <div class="product-label">
+                                                        <span class="new">NEW</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name">@Html.ActionLink(item.title, "BookDetail", "Home", new { book_id = item.id }, htmlAttributes: null)</h3>
+                                                    <h4 class="product-price">$ @item.price.00 </h4>
+                                                    <div class="product-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                    <div class="product-btns">
+                                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                                    </div>
+                                                </div>
+                                                <!--URL Pattern-->  <input name="url" value="@ViewBag.Url" hidden>
+                                                <!--Quantity-->     <input name="quantity" value="1" hidden>
+                                                <div class="add-to-cart">
+                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    }
+                                </div>
+                                <div id="slick-nav-1" class="products-slick-nav"></div>
+                            </div>
+                            <!-- /tab -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Products tab & slick -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+
+                <!-- section title -->
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h3 class="title">Top selling</h3>
+                    </div>
+                </div>
+                <!-- /section title -->
+                <!-- Products tab & slick -->
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="products-tabs">
+                            <!-- tab -->
+                            <div id="tab2" class="tab-pane fade in active">
+                                <div class="products-slick" data-nav="#slick-nav-2">
+                                    @foreach (var item in bestSeller)
+                                    {
+                                        <form action="/Cart/Add?book_id=@item.id" method="post">
+                                            <div class="product">
+                                                <div class="product-img">
+                                                    <img src="~/Content/img/@item.image_url" alt="">
+                                                    <div class="product-label">
+                                                        <span class="new">Best Seller</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name"><a href="BookDetail?id=@item.id">@item.title</a></h3>
+                                                    <h4 class="product-price">$ @item.price.00</h4>
+                                                    <div class="product-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                    <div class="product-btns">
+                                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                                    </div>
+                                                </div>
+                                                <!--URL Pattern-->  <input name="url" value="@ViewBag.Url" hidden>
+                                                <!--Quantity-->     <input name="quantity" value="1" hidden>
+                                                <div class="add-to-cart">
+                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    }
+                                </div>
+                                <div id="slick-nav-2" class="products-slick-nav"></div>
+                            </div>
+                            <!-- /tab -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /Products tab & slick -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
+    <!-- jQuery Plugins -->
+    <script src="~/Scripts/js/jquery.min.js"></script>
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/js/slick.min.js"></script>
+    <script src="~/Scripts/js/nouislider.min.js"></script>
+    <script src="~/Scripts/js/jquery.zoom.min.js"></script>
+    <script src="~/Scripts/js/main.js"></script>
+</body>
+</html>
