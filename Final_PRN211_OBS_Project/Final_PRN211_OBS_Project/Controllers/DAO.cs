@@ -203,6 +203,36 @@ namespace Final_PRN211_OBS_Project.Controllers
             db.Users.Add(new User() { email = email, password = password, username = name, avatar_url = "https://avatars.githubusercontent.com/u/17879520?v=4", role_id = 2 });
             db.SaveChanges();
         }
+
+        public void UpdateUser(string email, string name, string id)
+        {
+            db.Database.ExecuteSqlCommand($"UPDATE [User] SET [email] = '{email}', [username] = '{name}' WHERE id = {id}; ");
+            db.SaveChanges();
+            
+        }
+
+        public bool CheckExist(string name)
+        {
+            User x = new User()
+;            try
+            {
+                x = db.Users.SqlQuery($"select * from [User] where email = '{name}'").First();
+               return true;
+            }
+            catch
+            {
+                return false;
+
+            }
+            
+        }
+
+        public void UpdatePass(string pass, string email)
+        {
+            db.Database.ExecuteSqlCommand($"UPDATE [User] SET  [password] = '{pass}' WHERE [email] = '{email}'; ");
+            db.SaveChanges();
+
+        }
         #endregion
 
         //Orderline DAO

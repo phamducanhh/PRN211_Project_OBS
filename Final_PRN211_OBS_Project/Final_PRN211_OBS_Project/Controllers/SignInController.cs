@@ -12,6 +12,25 @@ namespace Final_PRN211_OBS_Project.Controllers
         DAO dao = new DAO();
         // GET: SignIn
         [HttpGet]
+        public ActionResult UpdateInfo()
+        {
+            ViewBag.user = (User)Session["user"];
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdateInfo(string name, string email)
+        {
+
+            dao.UpdateUser(email, name, ((User)Session["user"]).id.ToString());
+            Session["user"] = dao.GetUserByEmail(email);
+            return RedirectToAction("ViewInfo","SignIn");
+        }
+        public ActionResult ViewInfo()
+        {
+            ViewBag.user = (User)Session["user"];
+            return View();
+        }
         public ActionResult Index()
         {
          
@@ -88,6 +107,34 @@ namespace Final_PRN211_OBS_Project.Controllers
         {
             Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+        [HttpPost]
+        public ActionResult Forgot(string email, string pass, string repass)
+        {
+            string mess = "";
+            if (!dao.CheckExist(email))
+            {
+                mess += "Email not found ?";
+                ViewBag.mess = mess;
+                return View();
+            }
+            if (!pass.Equals(repass))
+            {
+                mess += "Passwords are not matched ";
+                ViewBag.mess = mess;
+                return View();
+            }
+
+            dao.UpdatePass(pass, email);
+            ViewBag.mess = "Change password successful!";
+            return RedirectToAction("Index","SignIn");
+        }
+
+        [HttpGet]
+        public ActionResult Forgot()
+        {
+
+            return View();
         }
     }
 }
