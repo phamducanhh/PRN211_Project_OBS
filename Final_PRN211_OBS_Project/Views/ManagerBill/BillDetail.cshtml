@@ -1,0 +1,44 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "BillDetail";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    List<Orderline> BillDetail = ViewBag.BillDetail;
+    DAO dao = new DAO();
+}
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">Bill ID</th>
+                            <th class="border-top-0">Book Name</th>
+                            <th class="border-top-0">Image</th>
+                            <th class="border-top-0">Book Price</th>
+                            <th class="border-top-0">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Orderline item in BillDetail)
+                        {
+                            <tr>
+                                <td>@item.bill_id</td>
+                                <td class="txt-oflo">@dao.GetBookById(item.book_id.ToString()).title</td>
+                                <td>
+                                    <div class="product-img">
+                                        <img src="~/Content/img/@dao.GetBookById(item.book_id.ToString()).image_url" width="100" height="150">
+                                    </div>
+                                </td>
+                                <td class="txt-oflo">@dao.GetBookById(item.book_id.ToString()).price</td>
+
+                                <td class="txt-oflo">@item.quantity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

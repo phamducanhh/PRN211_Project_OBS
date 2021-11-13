@@ -1,0 +1,56 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;  
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<User> ListUser = ViewBag.ListUser;
+    DAO dao = new DAO();
+}
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            @*<a href="AddBook">content</a>*@
+            <div class="table-responsive">
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">ID</th>
+                            <th class="border-top-0">Email</th>
+                            <th class="border-top-0">Username</th>
+                            <th class="border-top-0">Role</th>
+                            <th class="border-top-0">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (User item in ListUser)
+                        {
+                        <tr>
+                            <td>@item.id</td>
+                            <td class="txt-oflo">@item.email</td>
+                            <td class="txt-oflo">@item.username</td>
+                            <td class="txt-oflo">@dao.GetRole(item.role_id).title</td>
+                            <td>
+                                <form action="/UserAdmin/ChangeStatus?id=@item.id" method="POST">
+                                    <select name="selectStatus" onchange="this.form.submit()">
+                                        <option value="1" @(item.status == 1 ? "selected" : "")>Active</option>
+                                        <option value="0" @(item.status == 0 ? "selected" : "")>Banned</option>
+                                    </select>
+                                    <input name="url" value="@ViewBag.Url" hidden>
+                                </form>
+                            </td>
+                            
+                            <td>
+                                <div class="comment-footer d-md-flex align-items-center">
+                                    <a href="/UserAdmin/UserDetail?id=@item.id" class="badge bg-primary rounded">View Detail</a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

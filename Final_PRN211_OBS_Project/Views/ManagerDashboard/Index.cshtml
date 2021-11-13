@@ -1,0 +1,199 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    double[] array = ViewBag.Array;
+    List<Book> topSell = ViewBag.ListTopSeller;
+    List<Book> lowStock = ViewBag.ListLowStock;
+    List<Genre> genres = ViewBag.ListGenre;
+    DAO dao = new DAO();
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Three charts -->
+    <input type="hidden" id="totalgenre" value="@genres.Count" />
+    @foreach (var item in genres)
+    {
+        <input type="hidden" name="genre" value="@item.name" />
+        <input type="hidden" name="countofbook" value="@dao.GetBookByGenre(item.id.ToString()).Count" />
+    }
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- PRODUCTS YEARLY SALES -->
+    <!-- ============================================================== -->
+    @for (int i = 0; i < array.Length; i++)
+    {
+        <input type="hidden" name="revenue" value="@array[i]" />
+    }
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Products Yearly Revenue @DateTime.Now.Year in $</h3>
+                <div class="d-md-flex">
+                    @*<ul class="list-inline d-flex ms-auto">
+                            <li class="ps-3">
+                                <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
+                            </li>
+                            <li class="ps-3">
+                                <h5><i class="fa fa-circle me-1 text-inverse"></i>Windows</h5>
+                            </li>
+                        </ul>*@
+                </div>
+                <div id="ct-visits" style="height: 405px;">
+                    @*Code Here*@
+                    <center><canvas id="myChart" style="width:100%;max-width:700px;padding-top:30px"></canvas></center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- RECENT SALES -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="white-box">
+                <div class="d-md-flex mb-3">
+                    <h3 class="box-title mb-0">Low Stock Items</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table no-wrap">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0">ID</th>
+                                <th class="border-top-0">Title</th>
+                                <th class="border-top-0">Author</th>
+                                <th class="border-top-0">Price</th>
+                                <th class="border-top-0">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in lowStock)
+                            {
+                                <tr>
+                                    <td>@item.id</td>
+                                    <td class="txt-oflo">@item.title</td>
+                                    <td class="txt-oflo">@dao.GetAuthorById(item.author_id.ToString()).name</td>
+                                    <td class="txt-oflo">$@item.price</td>
+                                    <td class="txt-oflo">@(item.status==true?"Show":"Hide")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Recent Comments -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <!-- .col -->
+        <div class="col-lg-4 col-md-12 col-sm-12">
+            <div class="card white-box p-0">
+                <div class="card-heading">
+                    <h3 class="box-title mb-0">Top Selling</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="chatonline">
+                        @foreach (var item in topSell)
+                        {
+                            <li>
+                                <a href="javascript:void(0)" class="d-flex align-items-center">
+                                    <img src="~/Content/img/@item.image_url" class="img-circle">
+                                    <div class="ms-2">
+                                        <span class="text-dark">
+                                            @item.title <small class="d-block @(item.status==true?"text-success":"text-danger") d-block">@(item.status==true?"Show":"Hide")</small>
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-8 col-sm-12">
+            <div class="card white-box p-0">
+                <div class="card-body">
+                    <h3 class="box-title mb-0">Genre Detail</h3>
+                </div>
+                <div class="comment-widgets">
+                    <canvas id="myChart_1" style="width:100%;max-width:600px"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Container fluid  -->
+<script>
+    var revenue = document.getElementsByName('revenue');
+    var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var yValues = [];
+    for (var i = 0; i < 12; i++) {
+        if (revenue[i].value != -1) yValues[i] = revenue[i].value;
+    }
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(255,0,0,1.0)",
+                borderColor: "rgba(255,0,0,0.3)",
+                data: yValues
+            }]
+        },
+        options: {
+            legend: { display: false },
+            scales: {
+                yAxes: [{ ticks: { min: 0, max: 10000 } }],
+            }
+        }
+    });
+
+    var bar = document.getElementsByName('genre');
+    var bar_1 = document.getElementsByName('countofbook');
+    var xCount = document.getElementById('totalgenre').value;
+    var xValues_1 = [];
+    var yValues_1 = [];
+    var barcolors = [];
+    for (var i = 0; i < xCount; i++) {
+        xValues_1[i] = bar[i].value;
+        yValues_1[i] = bar_1[i].value;
+        barcolors[i] = "red";
+    }
+    console.log(xValues_1);
+    console.log(yValues_1);
+    console.log(barcolors);
+    new Chart("myChart_1", {
+        type: "bar",
+        data: {
+            labels: xValues_1,
+            datasets: [{
+                backgroundColor: barcolors,
+                data: yValues_1
+            }]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Number of book in each genre"
+            }
+        }
+    });
+</script>
+
+
+
+

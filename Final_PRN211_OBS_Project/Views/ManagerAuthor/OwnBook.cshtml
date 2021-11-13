@@ -1,0 +1,54 @@
+﻿@using Final_PRN211_OBS_Project.Controllers
+@using Final_PRN211_OBS_Project.Models
+@{
+    ViewBag.Title = "OwnBook";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    Author author = ViewBag.Author;
+    List<Book> books = ViewBag.OwnBook;
+}
+
+<div class="row">
+    <div class="col-lg-4 col-xlg-3 col-md-12">
+        <div class="white-box">
+            <div class="user-bg">
+                <img width="100%" alt="user" src="~/Content/img/avatar-author.png">
+
+            </div>
+            <div class="user-btm-box mt-5 d-md-flex flex-column">
+                <h4 class=" text-center">@author.name</h4>
+                <a href="@author.wiki_url" class=" text-center">See more</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-12 col-sm-12">
+        <div class="card white-box p-0">
+            <div class="card-heading">
+                <h3 class="box-title mb-0">Book Listing</h3>
+            </div>
+            <div class="card-body">
+                <ul class="chatonline">
+                    @if (books.Count == 0)
+                    {
+                        <h4>Author @author.name have no creations.</h4>
+                    }
+                    else
+                    {
+                        foreach (var item in books)
+                        {
+                            <li>
+                                <a href="javascript:void(0)" class="d-flex align-items-center">
+                                    <img src="~/Content/img/@item.image_url" alt="user-img" class="img-circle">
+                                    <div class="ms-2">
+                                        <span class="text-dark">
+                                            @item.title
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

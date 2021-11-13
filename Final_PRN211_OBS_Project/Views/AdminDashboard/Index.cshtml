@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    double[] array = ViewBag.Array;
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Three charts -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- PRODUCTS YEARLY SALES -->
+    <!-- ============================================================== -->
+    @for (int i = 0; i < array.Length; i++)
+    {
+        <input type="hidden" name="revenue" value="@array[i]" />
+    }
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Products Yearly Revenue @DateTime.Now.Year in $</h3>
+                <div class="d-md-flex">
+                    @*<ul class="list-inline d-flex ms-auto">
+                        <li class="ps-3">
+                            <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
+                        </li>
+                        <li class="ps-3">
+                            <h5><i class="fa fa-circle me-1 text-inverse"></i>Windows</h5>
+                        </li>
+                    </ul>*@
+                </div>
+                <div id="ct-visits" style="height: 405px;"> @*Code Here*@
+                    <center><canvas id="myChart" style="width:100%;max-width:700px;padding-top:30px"></canvas></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Container fluid  -->
+<script>
+    var revenue = document.getElementsByName('revenue');
+    var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var yValues = [];
+    for (var i = 0; i < 12; i++) {
+        if (revenue[i].value != -1) yValues[i] = revenue[i].value;
+    }
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(255,0,0,1.0)",
+                borderColor: "rgba(255,0,0,0.3)",
+                data: yValues
+            }]
+        },
+        options: {
+            legend: { display: false },
+            scales: {
+                yAxes: [{ ticks: { min: 0, max: 10000 } }],
+            }
+        }
+    });
+</script>

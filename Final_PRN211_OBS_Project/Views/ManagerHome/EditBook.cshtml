@@ -1,0 +1,103 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    List<Genre> genres = ViewBag.GenreList;
+    List<Genre> genresOfBook = ViewBag.GenreListOfBook;
+    List<Author> authors = ViewBag.AuthorList;
+    Book book = ViewBag.Book;
+    DAO dao = new DAO();
+    //int genreId = ViewBag.GenreByBookID;
+}
+
+<h2>Edit Book</h2>
+
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Row -->
+    <div class="row">
+        <!-- Column -->
+
+        <div class="col-lg-8 col-xlg-9 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="form-horizontal form-material" action="/ManagerHome/EditBook" method="post">
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0">Title</label>
+                            <input type="hidden" value="@book.id" name="id">
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="text" placeholder="The Godfather" class="form-control p-0 border-0" name="title" value="@book.title">
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0">Image</label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="file" class="form-control p-0 border-0" name="imageUrl" value="@book.image_url">
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0">Author</label>
+                            <div class="col-sm-12 border-bottom">
+                                <select class="form-select shadow-none p-0 border-0 form-control-line" name="author">
+                                    <option value="@book.author_id" selected>@dao.GetAuthorById(book.author_id.ToString()).name</option>
+                                    @foreach (Author item in authors)
+                                    {
+                                        <option value="@item.id">@item.name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0">Genre</label>
+                            @foreach (Genre item in genres)
+                            {
+                                <div class="col-md-12 p-0 mb-2 ml-5">
+                                    <input class="form-check-input" type="checkbox" value="@item.id" name="genre" @(dao.IsInList(genresOfBook, item.id) ? "checked" : "")>
+                                    <label class="form-check-label">@item.name</label>
+                                </div>
+                            }
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0">Description</label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <textarea rows="5" class="form-control p-0 border-0" name="description">@book.description</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="col-md-12 p-0">Price</label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="text" placeholder="99"
+                                       class="form-control p-0 border-0" name="price" value="@book.price">
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="form-check form-switch mb-4">
+                                <input class="form-check-input" type="checkbox" id="visibility" name="visible" value="1" @(dao.GetBookById(book.id.ToString()).status == true ? "checked" : "") />
+                                <label class="form-check-label" for="visibility" id="visibility-label">Visible</label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-danger text-white">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+    <!-- Row -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>

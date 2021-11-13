@@ -1,0 +1,304 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    DAO dao = new DAO();
+    List<Orderline> cart = new List<Orderline>();
+    if (Session["cart"] != null)
+    {
+        cart = (List<Orderline>)Session["cart"];
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>A book a day | Give the stress away</title>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Slick -->
+    <link type="text/css" href="~/Content/css/slick.css" rel="stylesheet" />
+    <link type="text/css" href="~/Content/css/slick-theme.css" rel="stylesheet" />
+
+    <!-- nouislider -->
+    <link type="text/css" href="~/Content/css/nouislider.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome Icon -->
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" href="~/Content/css/style.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .dropbtn {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: red;
+        }
+
+        li.dropdown {
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #1E1F29;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: red;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <!-- TOP HEADER -->
+        <div id="top-header">
+            <div class="container">
+                <ul class="header-links pull-left">
+                    <li><a href="callto://84911113052"><i class="fa fa-phone"></i> +84-911-113-052 </a></li>
+                    <li><a href="http:\\gmail.com"><i class="fa fa-envelope-o"></i> anhpdhe150529@gmail.com</a></li>
+                    <li><a href="https://www.google.com/search?q=fpt+university+hanoi&oq=fpt+university+hanoi&aqs=chrome..69i57j46.6323j0j15&sourceid=chrome&ie=UTF-8"><i class="fa fa-map-marker"></i> FPT University Hanoi</a></li>
+                </ul>
+                @if (Session["user"] == null)
+                {
+                    <ul class="header-links pull-right">
+                        <li><a href="@Url.Action("Index", "SignIn")"><i class="fa fa-user-o"> SIGN IN</i></a></li>
+                    </ul>
+                }
+                else
+                {
+            <ul class="header-links pull-right">
+                <li><p class="text-warning">Hello @(((User)Session["user"]).username)</p></li>
+
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">User Info</a>
+                    <div class="dropdown-content">
+                        <a href="/Cart/ViewBillHistory">View Bill History</a>
+                        <a href="/SignIn/ViewInfo"> View Info</a>
+                        <a href="/SignIn/UpdateInfo">Edit</a>
+                        <a href="@Url.Action("LogOut", "SignIn")"><i class="fa fa-sign-out"> SIGN OUT</i></a>
+                    </div>
+                </li>
+
+            </ul>
+                }
+
+            </div>
+        </div>
+        <!-- /TOP HEADER -->
+        <!-- MAIN HEADER -->
+        <div id="header">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- LOGO -->
+                    <div class="col-md-3">
+                        <div class="header-logo">
+                            <a href="@Url.Action("Index", "Home")" class="logo">
+                                <img src="~/Content/img/logo.png" />
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /LOGO -->
+                    <!-- SEARCH BAR -->
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                            {
+                                <input class="input" type="text" name="searchContent" placeholder="Search Books by Name">
+                                <button class="search-btn" type="submit">Search</button>
+                            }
+                        </div>
+                    </div>
+                    <!-- /SEARCH BAR -->
+                    <!-- ACCOUNT -->
+                    <div class="col-md-3 clearfix">
+                        <div class="header-ctn">
+                            <!-- Wishlist -->
+                            <div>
+                                <a href="#">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span> Wishlist</span>
+                                    <div class="qty">0</div>       <!--    CODE HERE    -->
+                                </a>
+                            </div>
+                            <!-- /Wishlist -->
+                            <!-- Cart -->          <!--CODE HERE-->
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Shopping Cart</span>
+                                    <div class="qty">@cart.Count</div>        <!--   CODE HERE   -->
+                                </a>
+                                <div class="cart-dropdown">
+                                    <div class="cart-list">
+                                        <!-- CODE HERE-->
+                                        @{double total = 0;}
+                                        @foreach (var item in cart)
+                                        {
+                                            <form action="/Cart/Remove?book_id=@item.book_id" method="post">
+                                                <div class="product-widget">
+                                                    <div class="product-img">
+                                                        <img src="/Content/img/@dao.GetBookById(item.book_id.ToString()).image_url" alt="">
+                                                    </div>
+
+                                                    <div class="product-body">
+                                                        <h3 class="product-name"><a href="/Home/BookDetail?book_id=@item.book_id">@dao.GetBookById(item.book_id.ToString()).title</a></h3>
+                                                        <h4 class="product-price"><span class="qty">@(item.quantity)x</span>$ @dao.GetBookById(item.book_id.ToString()).price.00</h4>
+                                                    </div>
+                                                    <input name="url" value="@ViewBag.Url" hidden>
+                                                    <button type="submit" class="delete"><i class="fa fa-close"></i></button>
+                                                </div>
+                                            </form>
+                                            total += item.quantity * dao.GetBookById(item.book_id.ToString()).price;
+                                        }
+                                    </div>
+
+                                    <div class="cart-summary">
+                                        <small>@cart.Count Item(s) selected</small>
+                                        <h5>SUBTOTAL: $ @total.00</h5>
+                                    </div>
+
+                                    <div class="cart-btns">
+                                        <a href="/Cart/ViewCart">View Cart</a>
+                                        <a href="/Cart/Checkout">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Cart -->
+                            <!-- Menu Toogle -->
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                            <!-- /Menu Toogle -->
+                        </div>
+                    </div>
+                    <!-- /ACCOUNT -->
+                </div>
+                <!-- row -->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- /MAIN HEADER -->
+    </header>
+    <!-- /HEADER -->
+
+    @RenderBody()
+
+    <footer id="footer">
+        <!-- top footer -->
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">About Us</h3>
+                            <p>This is an assignment project of Group 2 from SE1505, subject PRN211</p>
+                            <ul class="footer-links">
+                                <li><a href="callto://84911113052"><i class="fa fa-phone"></i> +84-911-113-052 </a></li>
+                                <li><a href="http:\\gmail.com"><i class="fa fa-envelope-o"></i> anhpdhe150529@gmail.com</a></li>
+                                <li><a href="https://www.google.com/search?q=fpt+university+hanoi&oq=fpt+university+hanoi&aqs=chrome..69i57j46.6323j0j15&sourceid=chrome&ie=UTF-8"><i class="fa fa-map-marker"></i> FPT University Hanoi</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Categories</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Category 1</a></li>
+                                <li><a href="#">Category 2</a></li>
+                                <li><a href="#">Category 3</a></li>
+                                <li><a href="#">Category 4</a></li>
+                                <li><a href="#">Category 5</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="clearfix visible-xs"></div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Information</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Orders and Returns</a></li>
+                                <li><a href="#">Terms & Conditions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Service</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">View Cart</a></li>
+                                <li><a href="#">Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /top footer -->
+    </footer>
+    <!-- /FOOTER -->
+    @*<script src="~/Scripts/js/jquery.min.js"></script>
+        <script src="~/Scripts/js/bootstrap.min.js"></script>
+        <script src="~/Scripts/js/slick.min.js"></script>
+        <script src="~/Scripts/js/nouislider.min.js"></script>
+        <script src="~/Scripts/js/jquery.zoom.min.js"></script>
+        <script src="~/Scripts/js/main.js"></script>*@
+
+</body>
+
+</html>

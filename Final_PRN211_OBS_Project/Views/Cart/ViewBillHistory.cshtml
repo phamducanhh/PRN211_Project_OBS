@@ -1,0 +1,88 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Bill> list = ViewBag.list;
+}
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Regular Page</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="/Home/Index">Home</a></li>
+                    <li class="active">Blank</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+<!-- NEWSLETTER -->
+<div id="newsletter" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="table-responsive">
+            <table class="table no-wrap">
+                <thead>
+                    <tr>
+                        <th class="border-top-0">DATE</th>
+                        <th class="border-top-0">PAYMENT</th>
+                        <th class="border-top-0">TOTAL</th>
+                        <th class="border-top-0" rowspan="2">ACTION</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+                    {
+                        <tr>
+
+                            <td class="txt-oflo">@item.date</td>
+
+                            <td><span class="text-success">@item.payment</span></td>
+
+                            <td>$@item.total</td>
+                            <td><i class="fa fa-eye"></i><a href="/Cart/BillDetail?id=@item.id">View</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /NEWSLETTER -->

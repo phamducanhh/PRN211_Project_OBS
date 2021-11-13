@@ -1,0 +1,175 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    List<Genre> List = ViewBag.Genre;
+    DAO dao = new DAO();
+    int count = 0;
+}
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            <button type="button" class="btn btn-danger text-white float-right" id="btn"><i class="fas fa-plus"></i> Add New Genre</button>
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <form class="form-horizontal form-material" action="/ManagerGenre/Add" method="post">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <input type="text" class="form-control p-0 border-0" name="genre" placeholder="Enter a Genre name:" />
+                        <br />
+                        <button type="submit" class="btn btn-danger text-white"><i class="fas fa-plus"></i>Add</button>
+                    </div>
+                </form>
+            </div>
+            <div id="myModal_1" class="modal">
+                <!-- Modal content -->
+                <form class="form-horizontal form-material">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <input id="genre_1" type="text" class="form-control p-0 border-0" placeholder="Enter new Genre name:" />
+                        <br />
+                        <button id="edit" type="submit" class="btn btn-danger text-white"><i class="fas fa-pencil-square"></i>Update</button>
+                    </div>
+                </form>
+            </div>
+            @*<a href="AddBook">content</a>*@
+            <div class="table-responsive">
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">ID</th>
+                            <th class="border-top-0">Title</th>
+                            <th class="border-top-0">Number of Book</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Genre item in List)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td class="txt-oflo">@item.name</td>
+                                <td name="count" class="txt-oflo">@dao.GetBookByGenre(item.id.ToString()).Count</td>
+                                <td class="txt-oflo"><a href="/ManagerGenre/ListBook?id=@item.id">Detail</a></td>
+                                <td class="txt-oflo"><a href="javascript:void(0)" onclick="editGenre(@item.id)">Edit</a></td>
+                                <td class="txt-oflo"><a href="javascript:void(0)" onclick="removeGenre(@count, @item.id)">Remove</a></td>
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <ul class="store-pagination">
+                    @for (int i = 1; i <= ViewBag.PageSize; i++)
+                    {
+                        if (i == ViewBag.CurrentPage)
+                        {
+                            <li class="active">@i</li>
+                        }
+                        else
+                        {
+                            <li><a href="/ManagerHome/Index?page=@i">@i</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function removeGenre(count,id) {
+        var cout = parseInt(count);
+        var td = document.getElementsByName('count');
+        console.log(td[cout].innerHTML);
+        if (td[cout].innerHTML === "0") {
+            var mess = "Do you want to remove this genre?"
+            var result = confirm(mess);
+            if (result) {
+                window.location.href = "/ManagerGenre/Delete?id=" + id;
+            }
+        }
+        else alert('There are books containing this genre, you can only remove genre that no book contains');
+    }
+
+    function editGenre(id) {
+        var modal = document.getElementById('myModal_1');
+        var span = document.getElementsByClassName("close")[1];
+        var edit = document.getElementById("edit");
+        modal.style.display = "block";
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        edit.onclick = function () {
+            var name = document.getElementById("genre_1").value;
+            console.log(name);
+            var mess = "Do you want to update this genre?"
+            var result = confirm(mess);
+            if (result) {
+                location.href = '/ManagerGenre/Edit?genre_id=' + id + '&name=' + name;
+            }
+        }
+    }
+
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById('btn');
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+</script>
+
+<style>
+    .modal {
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%; /* Could be more or less, depending on screen size */
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        padding-left: 320px
+    }
+
+    .close:hover,
+    .close:focus {            
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+

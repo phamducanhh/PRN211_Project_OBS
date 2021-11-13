@@ -1,0 +1,69 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    List<Bill> ListUnseenBill = ViewBag.ListUnseenBill;
+}
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">ID</th>
+                            <th class="border-top-0">User ID</th>
+                            <th class="border-top-0">Address</th>
+                            <th class="border-top-0">TelePhone</th>
+                            <th class="border-top-0">Date</th>
+                            <th class="border-top-0">Payment</th>
+                            <th class="border-top-0">Status</th>
+                            <th class="border-top-0">Total</th>
+                            <th class="border-top-0">Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Bill item in ListUnseenBill)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td class="txt-oflo">@item.user_id</td>
+                                <td class="txt-oflo">@item.address</td>
+                                <td class="txt-oflo">@item.telephone</td>
+                                <td class="txt-oflo">@item.date</td>
+                                <td><span class="text-success">@item.payment</span></td>
+                                <td class="txt-oflo">@item.status</td>
+                                <td><span class="text-success">@item.total</span></td>
+
+                                <td>
+                                    <div class="comment-footer d-md-flex align-items-center">
+                                        <a href="/UnseenBill/BillUnseenDetail?id=@item.id" class="badge bg-primary rounded">BillDetail</a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <ul class="store-pagination">
+                    @for (int i = 1; i <= ViewBag.PageSize; i++)
+                    {
+                        if (i == ViewBag.CurrentPage)
+                        {
+                            <li class="active">@i</li>
+                        }
+                        else
+                        {
+                            <li><a href="/UnseenBill/Index?page=@i">@i</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

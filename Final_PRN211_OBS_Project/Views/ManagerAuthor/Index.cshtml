@@ -1,0 +1,181 @@
+﻿@using Final_PRN211_OBS_Project.Controllers
+@using Final_PRN211_OBS_Project.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    List<Author> authors = ViewBag.AuthorList;
+    DAO dao = new DAO();
+}
+
+<div class="row">
+    <!-- .col -->
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="card white-box p-0">
+            <div class="card-body position-relative>
+                <h3 class="box-title mb-0">Author Listing</h3>
+                <button id="btn" class="btn btn-danger border-0 float-right text-white"><i class="fas fa-plus"> Add author</i></button>
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <form class="form-horizontal form-material" action="/ManagerAuthor/AddAuthor" method="post">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p><input type="text" placeholder="Author Name" class="form-control p-0 border-0" name="authorName">
+                            <p>
+                                <input type="text" placeholder="Wikipedia Link" class="form-control p-0 border-0" name="wikiUrl">
+                                <br />
+                                <center><button type="submit" class="btn btn-danger text-white"><i class="fas fa-plus"></i>Add</button></center>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="myModal_1" class="modal">
+                    <!-- Modal content -->
+                    <form class="form-horizontal form-material">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p><input id="author" type="text" class="form-control p-0 border-0" name="authorName">
+                            <p>
+                                <input id="wiki" type="text" class="form-control p-0 border-0" name="wikiUrl">
+                                <br />
+                                <center><button id="edit" type="submit" class="btn btn-danger text-white"><i class="fas fa-plus"></i>Update</button></center>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            @foreach (var item in authors)
+            {
+                <div class="comment-widgets">
+                    <!-- Comment Row -->
+                    <div class="d-flex flex-row comment-row p-3 mt-0">
+                        <div class="p-2"><img src="~/Content/img/avatar-author.png" alt="user" width="50" class="rounded-circle"></div>
+                        <div class="comment-text ps-2 ps-md-3 w-100">
+                            <h5 class="font-medium">@item.name</h5>
+                            <a href="@item.wiki_url" class="mb-3 d-block">@item.wiki_url</a>
+                            <div class="comment-footer d-md-flex align-items-center">
+                                <button onclick="location.href = '/ManagerAuthor/OwnBook?id=@item.id'" class="badge bg-primary rounded card-hover border-0">See Own Book</button>
+                                <button onclick="deleteAuthor(@item.id)" class="badge bg-warning rounded card-hover border-0">Delete Author</button>
+                                <button onclick="updateAuthor(@item.id,'@item.name','@item.wiki_url')" class="badge bg-cyan rounded card-hover border-0">Update Author</button> 
+                            </div>
+                            <input type="hidden" id="@item.id" value="@dao.GetBooksByAuthor(item.id).Count" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div style="padding-right: 20px">
+                <ul class="store-pagination">
+                    @for (int i = 1; i <= ViewBag.PageSize; i++)
+                    {
+                        if (i == ViewBag.CurrentPage)
+                        {
+                            <li class="active">@i</li>
+                        }
+                        else
+                        {
+                            <li><a href="/ManagerAuthor/Index?page=@i">@i</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+</div>
+
+<script type="text/javascript">
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById('btn');
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    function deleteAuthor(id) {
+        var count = parseInt(document.getElementById(id).value);
+        if (count != 0) alert('You can only delete Author when he/she does not have any book in the website');
+        else {
+            var mess = "Do you want to remove this author?"
+            var result = confirm(mess);
+            if (result) {
+                window.location.href = "/ManagerAuthor/DeleteAuthor?id=" + id;
+            }
+        }
+    }
+
+    function updateAuthor(id,pre_name,pre_wiki) {
+        var modal = document.getElementById('myModal_1');
+        console.log(modal);
+        var span = document.getElementsByClassName("close")[1];
+        var edit = document.getElementById("edit");
+        var name_input = document.getElementById("author");
+        var wiki_input = document.getElementById("wiki")
+        modal.style.display = "block";
+        name_input.value = pre_name;
+        wiki_input.value = pre_wiki;
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        edit.onclick = function () {
+            var name = document.getElementById("author").value;
+            var wiki = document.getElementById("wiki").value;
+            console.log(name);
+            var mess = "Do you want to update this author?"
+            var result = confirm(mess);
+            if (result) {
+                location.href = '/ManagerAuthor/UpdateAuthor?author_id=' + id + '&name=' + name + '&wiki=' + wiki;
+            }
+        }
+    }
+</script>
+
+<style>
+    .modal {
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%; /* Could be more or less, depending on screen size */
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        padding-left: 320px
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>

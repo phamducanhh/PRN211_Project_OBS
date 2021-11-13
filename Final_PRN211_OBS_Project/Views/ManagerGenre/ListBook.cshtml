@@ -1,0 +1,59 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "ListBook";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+    DAO dao = new DAO();
+    List<Book> allBooks = ViewBag.ListBook;
+}
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">ID</th>
+                            <th class="border-top-0">Title</th>
+                            <th class="border-top-0">Author</th>
+                            <th class="border-top-0">Price</th>
+                            <th class="border-top-0">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Book item in allBooks)
+                        {
+                            <tr>
+                                <td>@item.id</td>
+                                <td class="txt-oflo">@item.title</td>
+                                <td>@dao.GetAuthorById(item.author_id.ToString()).name</td>
+                                <td><span class="text-success">$@item.price</span></td>
+                                <td><i class="@(item.status==true?"fas fa-eye":"fas fa-eye-slash")"></i></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <ul class="store-pagination">
+                    @for (int i = 1; i <= ViewBag.PageSize; i++)
+                    {
+                        if (i == ViewBag.CurrentPage)
+                        {
+                            <li class="active">@i</li>
+                        }
+                        else
+                        {
+                            <li><a href="/ManagerGenre/ListBook?id=@ViewBag.ID&page=@i">@i</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

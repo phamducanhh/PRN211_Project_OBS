@@ -1,0 +1,128 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@{
+    Layout = null;
+    User x = ViewBag.user;
+}
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #000000
+        }
+
+        .padding {
+            padding: 3rem !important;
+            margin-left: 200px
+        }
+
+        .card-img-top {
+            height: 300px
+        }
+
+        .card-no-border .card {
+            border-color: #d7dfe3;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05)
+        }
+
+        .card-body {
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem
+        }
+
+        .pro-img {
+            margin-top: -80px;
+            margin-bottom: 20px
+        }
+
+        .little-profile .pro-img img {
+            width: 128px;
+            height: 128px;
+            -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 100%
+        }
+
+        html body .m-b-0 {
+            margin-bottom: 0px
+        }
+
+        h3 {
+            line-height: 30px;
+            font-size: 21px
+        }
+
+        .btn-rounded.btn-md {
+            padding: 12px 35px;
+            font-size: 16px
+        }
+
+        html body .m-t-10 {
+            margin-top: 10px
+        }
+
+        .btn-primary,
+        .btn-primary.disabled {
+            background: #7460ee;
+            border: 1px solid #7460ee;
+            -webkit-box-shadow: 0 2px 2px 0 rgba(116, 96, 238, 0.14), 0 3px 1px -2px rgba(116, 96, 238, 0.2), 0 1px 5px 0 rgba(116, 96, 238, 0.12);
+            box-shadow: 0 2px 2px 0 rgba(116, 96, 238, 0.14), 0 3px 1px -2px rgba(116, 96, 238, 0.2), 0 1px 5px 0 rgba(116, 96, 238, 0.12);
+            -webkit-transition: 0.2s ease-in;
+            -o-transition: 0.2s ease-in;
+            transition: 0.2s ease-in
+        }
+
+        .btn-rounded {
+            border-radius: 60px;
+            padding: 7px 18px
+        }
+
+        .m-t-20 {
+            margin-top: 20px
+        }
+
+        .text-center {
+            text-align: center !important
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #455a64;
+            font-family: "Poppins", sans-serif;
+            font-weight: 400
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 1rem
+        }
+    </style>
+</head>
+<body>
+    <div class="padding">
+        <div class="col-md-8">
+            <!-- Column -->
+            <div class="card">
+                <img class="card-img-top" src="https://i.imgur.com/K7A78We.jpg" alt="Card image cap">
+                <div class="card-body little-profile text-center">
+                    <div class="pro-img"><img src="@x.avatar_url" alt="user"></div>
+                    <h3 class="m-b-0">@x.username</h3>
+                    <p>@x.email</p>
+                    <a href="/Home/Index" class="m-t-10 waves-effect waves-dark btn btn-primary btn-md btn-rounded" data-abc="true">Back to HomePage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

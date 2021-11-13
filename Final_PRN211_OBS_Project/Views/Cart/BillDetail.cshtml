@@ -1,0 +1,88 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Orderline> list = ViewBag.list;
+    DAO dao = new DAO();
+}
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Regular Page</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="/Home/Index">Home</a></li>
+                    <li class="active">Blank</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+<!-- NEWSLETTER -->
+<div id="newsletter" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="table-responsive">
+            <table class="table no-wrap">
+                <thead>
+                    <tr>
+                        <th class="border-top-0">BOOK NAME</th>
+                        <th class="border-top-0">DETAIL</th>
+                        <th class="border-top-0">QUANTITY</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+                    {
+                        <tr>
+                            <td style="font-size:20px">@dao.GetBookById(item.book_id.ToString()).title</td>
+
+                            <td><img src="~/Content/img/@dao.GetBookById(item.book_id.ToString()).image_url" style="width:100px;height:100px"></td>
+
+                            <td><span class="text-success" style="font-size: 20px;font-family: 'Times New Roman'">@item.quantity</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /NEWSLETTER -->
