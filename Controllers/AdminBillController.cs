@@ -24,6 +24,14 @@ namespace PRN211_Project_OBS.Controllers
         {
             int id = Convert.ToInt32(Request.Params["id"]);
             string status = Request.Params["selectStatus"];
+            var ListBookInBill = dao.GetBillDeltai(id);
+            if (status.Equals("Done"))
+            {
+                foreach(var item in ListBookInBill)
+                {
+                    dao.UpdateStockBook(item.book_id, item.quantity);
+                }
+            }
             dao.ChangeStatus(id, status);
             return Redirect(url);
         }

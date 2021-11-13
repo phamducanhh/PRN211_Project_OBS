@@ -1,0 +1,60 @@
+﻿@using PRN211_Project_OBS.Controllers
+@using PRN211_Project_OBS.Models
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Orderline> BillDetail = ViewBag.BillUnseenDetail;
+    int id = ViewBag.ID;
+    DAO dao = new DAO();
+
+}
+
+<div class="row align-items-center">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Action</h4>
+    </div>
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        <div class="d-md-flex">
+            
+                <a href="/UnseenBill/RegexBill?id=@id" class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
+    Regex
+</a>
+            
+            <a href="/UnseenBill/ProcessingBill?id=@id" 
+               class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
+                Processing
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table no-wrap">
+        <thead>
+            <tr>
+                <th class="border-top-0">Bill ID</th>
+                <th class="border-top-0">Book Name</th>
+                <th class="border-top-0">Image</th>
+                <th class="border-top-0">Book Price</th>
+                <th class="border-top-0">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Orderline item in BillDetail)
+            {
+                <tr>
+                    <td>@item.bill_id</td>
+                    <td class="txt-oflo">@dao.GetBookById(item.book_id.ToString()).title</td>
+                    <td>
+                        <div class="product-img">
+                            <img src="~/Content/img/@dao.GetBookById(item.book_id.ToString()).image_url" width="100" height="150">
+                        </div>
+                    </td>
+                    <td class="txt-oflo">@dao.GetBookById(item.book_id.ToString()).price</td>
+
+                    <td class="txt-oflo">@item.quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

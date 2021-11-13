@@ -228,7 +228,30 @@ namespace PRN211_Project_OBS.Controllers
            
             return db.Orderlines.SqlQuery($"select *from OrderLine where bill_id ={id}").ToList();
         }
+        public List<Bill> GetUnseenBill()
+        {
+            string sql = "select * from Bill where status = 'Unseen'";
+            return db.Bills.SqlQuery(sql).ToList();
+        }
+        public void DeleteBill( int id)
+        {
+            var ListBillDetail = GetBillDeltai(id);
+            foreach( var item in ListBillDetail)
+            {
+                db.Orderlines.Remove(item);
+            }
+            var change = db.Bills.SingleOrDefault(c => c.id == id);
+            db.Bills.Remove(change);
+            db.SaveChanges();
+
+        }
+        public void UpdateStockBook( int BookID, int Quan)
+        {
+            var change = db.Stocks.SingleOrDefault(c => c.book_id == BookID);
+            change.quantity -= Quan;
+            db.SaveChanges();
+        }
         #endregion
-        
+
     }
 }

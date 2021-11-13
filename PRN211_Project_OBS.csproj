@@ -134,6 +134,7 @@
     <Compile Include="Controllers\DAO.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SignInController.cs" />
+    <Compile Include="Controllers\UnseenBillController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -741,6 +742,8 @@
     <Content Include="Views\AdminHome\Index.cshtml" />
     <Content Include="Views\AdminBill\Index.cshtml" />
     <Content Include="Views\AdminBill\BillDetail.cshtml" />
+    <Content Include="Views\UnseenBill\Index.cshtml" />
+    <Content Include="Views\UnseenBill\BillUnseenDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
