@@ -11,29 +11,36 @@
     <div class="col-md-12 col-lg-12 col-sm-12">
         <div class="white-box">
             <div class="table-responsive">
-                <table class="table no-wrap">
-                    <thead>
-                        <tr>
-                            <th class="border-top-0">ID</th>
-                            <th class="border-top-0">Title</th>
-                            <th class="border-top-0">Author</th>
-                            <th class="border-top-0">Price</th>
-                            <th class="border-top-0">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Book item in allBooks)
-                        {
+                @if (allBooks.Count == 0)
+                {
+                    <h4>There is no book for this genre.</h4>
+                }
+                else
+                {
+                    <table class="table no-wrap">
+                        <thead>
                             <tr>
-                                <td>@item.id</td>
-                                <td class="txt-oflo">@item.title</td>
-                                <td>@dao.GetAuthorById(item.author_id.ToString()).name</td>
-                                <td><span class="text-success">$@item.price</span></td>
-                                <td><i class="@(item.status==true?"fas fa-eye":"fas fa-eye-slash")"></i></td>
+                                <th class="border-top-0">ID</th>
+                                <th class="border-top-0">Title</th>
+                                <th class="border-top-0">Author</th>
+                                <th class="border-top-0">Price</th>
+                                <th class="border-top-0">Status</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (Book item in allBooks)
+                            {
+                                <tr>
+                                    <td>@item.id</td>
+                                    <td class="txt-oflo">@item.title</td>
+                                    <td>@dao.GetAuthorById(item.author_id.ToString()).name</td>
+                                    <td><span class="text-success">$@item.price</span></td>
+                                    <td><i class="@(item.status==true?"fas fa-eye":"fas fa-eye-slash")"></i></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
             </div>
 
             <div>

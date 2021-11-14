@@ -25,10 +25,11 @@
             </div>
             <div id="myModal_1" class="modal">
                 <!-- Modal content -->
-                <form class="form-horizontal form-material">
+                <form class="form-horizontal form-material" action="/ManagerGenre/Edit" method="post" id="editGenre">
                     <div class="modal-content">
                         <span class="close">&times;</span>
-                        <input id="genre_1" type="text" class="form-control p-0 border-0" placeholder="Enter new Genre name:" />
+                        <input id="genre_id" type="text" class="form-control p-0 border-0" value="" name="genre_id" />
+                        <input id="genre_1" type="text" class="form-control p-0 border-0" value="" name="new_name" />
                         <br />
                         <button id="edit" type="submit" class="btn btn-danger text-white"><i class="fas fa-pencil-square"></i>Update</button>
                     </div>
@@ -52,7 +53,7 @@
                                 <td class="txt-oflo">@item.name</td>
                                 <td name="count" class="txt-oflo">@dao.GetBookByGenre(item.id.ToString()).Count</td>
                                 <td class="txt-oflo"><a href="/ManagerGenre/ListBook?id=@item.id">Detail</a></td>
-                                <td class="txt-oflo"><a href="javascript:void(0)" onclick="editGenre(@item.id)">Edit</a></td>
+                                <td class="txt-oflo"><a href="javascript:void(0)" onclick="editGenre(@item.id, '@item.name')">Edit</a></td>
                                 <td class="txt-oflo"><a href="javascript:void(0)" onclick="removeGenre(@count, @item.id)">Remove</a></td>
                             </tr>
                             count++;
@@ -95,10 +96,12 @@
         else alert('There are books containing this genre, you can only remove genre that no book contains');
     }
 
-    function editGenre(id) {
+    function editGenre(id,pre_name) {
         var modal = document.getElementById('myModal_1');
         var span = document.getElementsByClassName("close")[1];
         var edit = document.getElementById("edit");
+        document.getElementById('genre_id').value = id;
+        document.getElementById('genre_1').value = pre_name;
         modal.style.display = "block";
 
         window.onclick = function (event) {
@@ -117,7 +120,7 @@
             var mess = "Do you want to update this genre?"
             var result = confirm(mess);
             if (result) {
-                location.href = '/ManagerGenre/Edit?genre_id=' + id + '&name=' + name;
+                document.getElementById('editGenre').submit();
             }
         }
     }

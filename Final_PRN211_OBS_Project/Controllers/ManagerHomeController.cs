@@ -61,7 +61,6 @@ namespace Final_PRN211_OBS_Project.Controllers
                 {
                     Directory.CreateDirectory(path);
                 }
-
                 imageUrl.SaveAs(path + Path.GetFileName(imageUrl.FileName));
             }
             string _imageUrl = imageUrl.FileName;
@@ -101,15 +100,27 @@ namespace Final_PRN211_OBS_Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBook(string id, string title, string imageUrl, int author, int[] genre, string description, float price, string visible)
+        public ActionResult EditBook(string id, string title, HttpPostedFileBase imageUrl, int author, int[] genre, string description, float price, string visible)
         {
             Access();
             Book book = dao.GetBookById(id);
             int status;
+            string _imageUrl = "";
             status = visible.Equals("1") ? 1 : 0;
             dao.ChangeStatus(book.id, status);
-            if (imageUrl.Length == 0) imageUrl = book.image_url;
-            db.Database.ExecuteSqlCommand($"update Book set title = '{title}', image_url = '{imageUrl}', author_id = {author}, " +
+            if (imageUrl==null) _imageUrl = book.image_url;
+            if (imageUrl != null)
+            {
+                string path = Server.MapPath("~/Content/img/");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                imageUrl.SaveAs(path + Path.GetFileName(imageUrl.FileName));
+                _imageUrl = imageUrl.FileName;
+            }
+            
+            db.Database.ExecuteSqlCommand($"update Book set title = '{title}', image_url = '{_imageUrl}', author_id = {author}, " +
                 $"description = N'{description}', price={price} where id={book.id}");
             db.SaveChanges();
             dao.DeleteBookGenreId(book.id);
@@ -128,7 +139,7 @@ namespace Final_PRN211_OBS_Project.Controllers
             int id = Int32.Parse(Request.Params["id"]);
             if (dao.GetOrderlineByBookId(id).Count == 0 && dao.GetStockByBookId(id).quantity == 0) dao.DeleteBookById(id);
             else dao.ChangeStatus(id, 0);
-            return RedirectToAction("Index", "AdminHome");
+            return RedirectToAction("Index", "ManagerHome");
         }
     }
 }

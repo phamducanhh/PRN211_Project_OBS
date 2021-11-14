@@ -54,7 +54,7 @@ namespace Final_PRN211_OBS_Project.Controllers
             Access();
             string id = Request.Params["id"];
             dao.DeleteGenre(id);
-            return RedirectToAction("Index", "AdminGenre");
+            return RedirectToAction("Index", "ManagerGenre");
         }
 
         [HttpPost]
@@ -62,16 +62,14 @@ namespace Final_PRN211_OBS_Project.Controllers
         {
             Access();
             dao.AddGenre(genre);
-            return RedirectToAction("Index", "AdminGenre");
+            return RedirectToAction("Index", "ManagerGenre");
         }
-        [HttpGet]
-        public ActionResult Edit()
+        [HttpPost]
+        public ActionResult Edit(string genre_id, string new_name)
         {
             Access();
-            string id = Request.Params["genre_id"];
-            string name = Request.Params["name"];
-            dao.EditGenre(id, name);
-            return RedirectToAction("Index", "AdminGenre");
+            dao.EditGenre(genre_id, new_name);
+            return RedirectToAction("Index", "ManagerGenre");
         }
     }
 }

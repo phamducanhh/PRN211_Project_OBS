@@ -12,9 +12,10 @@
         <div class="white-box">
             <div id="myModal_1" class="modal">
                 <!-- Modal content -->
-                <form class="form-horizontal form-material">
+                <form class="form-horizontal form-material" action="/ManagerDashboard/UpdateStock" method="post" id="updateStock">
                     <div class="modal-content">
                         <span class="close">&times;</span>
+                        <input id="book_id" type="hidden" name="book_id" value="" />
                         <p><input id="book" type="text" class="form-control p-0 border-0" name="book">
                         <p>
                             <input id="quantity" type="number" class="form-control p-0 border-0" name="quantity" value="1">
@@ -84,6 +85,7 @@
         var name_input = document.getElementById("book");
         modal.style.display = "block";
         name_input.value = title;
+        document.getElementById('book_id').value = id;
         
         window.onclick = function (event) {
             if (event.target == modal) {
@@ -100,7 +102,7 @@
             var mess = "This action can not be undo, please check carefully."
             var result = confirm(mess);
             if (result) {
-                location.href = '/ManagerDashboard/UpdateStock?book_id=' + id + '&quantity=' + quantity;
+                document.getElementById('updateStock').submit();
             }
         }
     }

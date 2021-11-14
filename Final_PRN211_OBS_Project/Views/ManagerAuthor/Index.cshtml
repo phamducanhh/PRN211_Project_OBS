@@ -30,9 +30,10 @@
 
                 <div id="myModal_1" class="modal">
                     <!-- Modal content -->
-                    <form class="form-horizontal form-material">
+                    <form class="form-horizontal form-material" action="/ManagerAuthor/UpdateAuthor" method="post" id="updateAuthor">
                         <div class="modal-content">
                             <span class="close">&times;</span>
+                            <p><input id="author_id" type="text" class="form-control p-0 border-0" name="id" value="" readonly />
                             <p><input id="author" type="text" class="form-control p-0 border-0" name="authorName">
                             <p>
                                 <input id="wiki" type="text" class="form-control p-0 border-0" name="wikiUrl">
@@ -119,6 +120,7 @@
         var name_input = document.getElementById("author");
         var wiki_input = document.getElementById("wiki")
         modal.style.display = "block";
+        document.getElementById('author_id').value = id;
         name_input.value = pre_name;
         wiki_input.value = pre_wiki;
 
@@ -139,7 +141,7 @@
             var mess = "Do you want to update this author?"
             var result = confirm(mess);
             if (result) {
-                location.href = '/ManagerAuthor/UpdateAuthor?author_id=' + id + '&name=' + name + '&wiki=' + wiki;
+                document.getElementById('updateAuthor').submit();
             }
         }
     }

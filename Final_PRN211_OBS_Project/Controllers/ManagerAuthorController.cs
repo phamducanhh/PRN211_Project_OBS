@@ -61,7 +61,7 @@ namespace Final_PRN211_OBS_Project.Controllers
             };
             db.Authors.Add(author);
             db.SaveChanges();
-            return RedirectToAction("Index", "AdminAuthor");
+            return RedirectToAction("Index", "ManagerAuthor");
         }
         [HttpGet]
         public ActionResult DeleteAuthor()
@@ -70,18 +70,16 @@ namespace Final_PRN211_OBS_Project.Controllers
             string id = Request.Params["id"];
             db.Database.ExecuteSqlCommand($"delete from Author where id = '{id}' ");
             db.SaveChanges();
-            return RedirectToAction("Index", "AdminAuthor");
+            return RedirectToAction("Index", "ManagerAuthor");
         }
 
-        public ActionResult UpdateAuthor()
+        [HttpPost]
+        public RedirectResult UpdateAuthor(string id, string authorName, string wikiUrl)
         {
             Access();
-            string id = Request.Params["author_id"];
-            string name = Request.Params["name"];
-            string wiki = Request.Params["wiki"];
-            db.Database.ExecuteSqlCommand($"update Author set [name] = '{name}', [wiki_url] = '{wiki}' where [id] = '{id}' ");
+            db.Database.ExecuteSqlCommand($"update Author set [name] = '{authorName}', [wiki_url] = '{wikiUrl}' where [id] = '{id}' ");
             db.SaveChanges();
-            return RedirectToAction("Index", "AdminAuthor");
+            return Redirect("/ManagerAuthor/Index");
         }
     }
 }

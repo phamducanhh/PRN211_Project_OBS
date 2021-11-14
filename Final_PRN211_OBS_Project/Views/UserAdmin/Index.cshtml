@@ -30,6 +30,8 @@
                                 <td class="txt-oflo">@item.email</td>
                                 <td class="txt-oflo">@item.username</td>
                                 <td class="txt-oflo">@dao.GetRole(item.role_id).title</td>
+                                @if (item.role_id != 1)
+                                {
                                 <td>
                                     <form action="/UserAdmin/ChangeStatus?id=@item.id" method="POST">
                                         <select name="selectStatus" onchange="this.form.submit()">
@@ -38,7 +40,11 @@
                                         </select>
                                         <input name="url" value="@ViewBag.Url" hidden>
                                     </form>
-                                </td>
+                                </td>}
+                else
+                {
+                    <td class="txt-oflo">Active</td>
+                }
 
                                 <td>
                                     <div class="comment-footer d-md-flex align-items-center">

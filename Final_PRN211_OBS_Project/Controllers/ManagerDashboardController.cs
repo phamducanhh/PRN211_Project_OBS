@@ -58,14 +58,12 @@ namespace Final_PRN211_OBS_Project.Controllers
             return View();
         }
 
-        [HttpGet]
-        public void UpdateStock()
+        [HttpPost]
+        public ActionResult UpdateStock(string book_id, string quantity)
         {
             Access();
-            string id = Request.Params["book_id"];
-            int quantity = Convert.ToInt32(Request.Params["quantity"]);
-            dao.UpdateStock(id, quantity);
-            Redirect("/ManagerDashboard/Stock");
+            dao.UpdateStock(book_id, Int32.Parse(quantity));
+            return RedirectToAction("Stock","ManagerDashboard");
         }
     }
 }

@@ -82,6 +82,21 @@
             </table>
         </div>
         <!-- /row -->
+        <div>
+            <ul class="store-pagination">
+                @for (int i = 1; i <= ViewBag.PageSize; i++)
+                {
+                    if (i == ViewBag.CurrentPage)
+                    {
+                        <li class="active">@i</li>
+                    }
+                    else
+                    {
+                        <li><a href="/Cart/ViewBillHistory?page=@i">@i</a></li>
+                    }
+                }
+            </ul>
+        </div>
     </div>
     <!-- /container -->
 </div>
