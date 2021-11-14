@@ -1,0 +1,77 @@
+﻿@using Final_PRN211_OBS_Project.Models;
+@using Final_PRN211_OBS_Project.Controllers;
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Review> allBooks = ViewBag.Reviews;
+    allBooks.Reverse();
+    DAO dao = new DAO();
+}
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            @*<a href="AddBook">content</a>*@
+            <div class="table-responsive">
+                @if (allBooks.Count == 0)
+                {
+                <center><h5>There is no review in this book</h5></center>
+                }
+                else
+                {
+                <table class="table no-wrap">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">Book</th>
+                            <th class="border-top-0">User</th>
+                            <th class="border-top-0">Date</th>
+                            <th class="border-top-0">Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Review item in allBooks)
+                        {
+                            <tr>
+                                <td>@dao.GetBookById(item.book_id.ToString()).title</td>
+                                <td class="txt-oflo">@dao.GetUserByID(item.user_id.ToString()).email</td>
+                                <td class="txt-oflo">@item.date</td>
+                                <td>@item.comment</td>
+                                <td>
+                                    <div class="comment-footer d-md-flex align-items-center">
+                                        <a href="javascript:void(0)" onclick="deleteReview(@item.id,@ViewBag.ID,@ViewBag.CurrentPage)" class="badge bg-primary rounded">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+            </div>
+
+            <div>
+                <ul class="store-pagination">
+                    @for (int i = 1; i <= ViewBag.PageSize; i++)
+                    {
+                        if (i == ViewBag.CurrentPage)
+                        {
+                            <li class="active">@i</li>
+                        }
+                        else
+                        {
+                            <li><a href="/AdminReview/Detail?id=@ViewBag.ID&page=@i">@i</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteReview(id, book_id, page) {
+        var mess = "Do you want to remove this review?"
+        var result = confirm(mess);
+        if (result == true) {
+            location.href = '/AdminReview/Delete?id=' + id + '&book_id=' + book_id + '&page=' + page;
+        }
+    }
+</script>

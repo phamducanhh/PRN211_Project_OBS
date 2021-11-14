@@ -433,6 +433,12 @@ namespace Final_PRN211_OBS_Project.Controllers
             db.Reviews.Add(x);
             db.SaveChanges();
         }
+
+        public void DeleteReview(string id)
+        {
+            db.Database.ExecuteSqlCommand($"delete Review where id = '{id}'");
+            db.SaveChanges();
+        }
         #endregion
 
         //Access Request

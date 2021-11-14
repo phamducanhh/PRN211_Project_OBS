@@ -1,9 +1,9 @@
 ﻿@using Final_PRN211_OBS_Project.Models;
-@using Final_PRN211_OBS_Project.Controllers;  
+@using Final_PRN211_OBS_Project.Controllers;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    List<User> ListUser = ViewBag.ListUser;
+    List<Book> allBooks = ViewBag.Books;
     DAO dao = new DAO();
 }
 
@@ -16,33 +16,24 @@
                     <thead>
                         <tr>
                             <th class="border-top-0">ID</th>
-                            <th class="border-top-0">Email</th>
-                            <th class="border-top-0">Username</th>
-                            <th class="border-top-0">Role</th>
+                            <th class="border-top-0">Title</th>
+                            <th class="border-top-0">Author</th>
                             <th class="border-top-0">Status</th>
+                            <th class="border-top-0">Reviews</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (User item in ListUser)
+                        @foreach (Book item in allBooks)
                         {
                             <tr>
                                 <td>@item.id</td>
-                                <td class="txt-oflo">@item.email</td>
-                                <td class="txt-oflo">@item.username</td>
-                                <td class="txt-oflo">@dao.GetRole(item.role_id).title</td>
-                                <td>
-                                    <form action="/UserAdmin/ChangeStatus?id=@item.id" method="POST">
-                                        <select name="selectStatus" onchange="this.form.submit()">
-                                            <option value="1" @(item.status == 1 ? "selected" : "")>Active</option>
-                                            <option value="0" @(item.status == 0 ? "selected" : "")>Banned</option>
-                                        </select>
-                                        <input name="url" value="@ViewBag.Url" hidden>
-                                    </form>
-                                </td>
-
+                                <td class="txt-oflo">@item.title</td>
+                                <td>@dao.GetAuthorById(item.author_id.ToString()).name</td>
+                                <td><i class="@(item.status==true?"fas fa-eye":"fas fa-eye-slash")"></i></td>
+                                <td class="txt-oflo">@dao.GetReviewOfBookID(item.id.ToString()).Count</td>
                                 <td>
                                     <div class="comment-footer d-md-flex align-items-center">
-                                        <a href="/UserAdmin/UserDetail?id=@item.id" class="badge bg-primary rounded">View Detail</a>
+                                        <a href="/AdminReview/Detail?id=@item.id" class="badge bg-primary rounded">View Detail</a>
                                     </div>
                                 </td>
                             </tr>
@@ -61,7 +52,7 @@
                         }
                         else
                         {
-                            <li><a href="/UserAdmin/Index?page=@i">@i</a></li>
+                            <li><a href="/AdminReview/Index?page=@i">@i</a></li>
                         }
                     }
                 </ul>

@@ -23,7 +23,20 @@ namespace Final_PRN211_OBS_Project.Controllers
         public ActionResult Index()
         {
             Access();
-            ViewBag.ListUser = dao.GetUsers();
+            List<User> list = dao.GetUsers();
+            int pageSize = list.Count % 10 == 0 ? list.Count / 10 : list.Count / 10 + 1;
+            int currentPage;
+            try
+            {
+                currentPage = Int32.Parse(Request.Params["page"]);
+            }
+            catch (Exception e)
+            {
+                currentPage = 1;
+            }
+            ViewBag.ListUser = list.GetRange(10 * (currentPage - 1), 10 * currentPage > list.Count ? list.Count % 10 : 10);
+            ViewBag.PageSize = pageSize;
+            ViewBag.CurrentPage = currentPage;
             ViewBag.Url = "/UserAdmin/Index";
             return View();
         }
